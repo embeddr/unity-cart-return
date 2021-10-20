@@ -12,6 +12,14 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Pause/Restart",
+                    "type": "Button",
+                    "id": "c4ee0a3d-f631-42c3-87e0-80898afdf5ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -89,6 +97,17 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "MoveUpDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e32247a7-cb51-4296-8eeb-da5b3f04480c",
+                    "path": "*/{Back}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause/Restart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

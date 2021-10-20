@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class MoveUpDown : MonoBehaviour
 {
     // Sets whether object should currently be moveable
-    public bool _moveable = true;
+    public bool moveable = true;
 
     // Force to apply when moving the object 
     [SerializeField]
@@ -25,7 +25,7 @@ public class MoveUpDown : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_moveable) {
+        if (moveable) {
             var force = new Vector2(0, _moveForce * _upDownAction.ReadValue<float>());
             _rb2d.AddForce(force);
         }

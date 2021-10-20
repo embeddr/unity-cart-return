@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 197291848}
   m_Layer: 6
   m_Name: LowerBoundary
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -285,6 +286,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc817662bb84f0409bae7cb2cef31f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &659287284
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +310,7 @@ GameObject:
   - component: {fileID: 659287286}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Spawner
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -328,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298ef539d286f23049f71c9e23cd0ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enabled: 1
+  spawnEnabled: 1
   _parkedCarPrefab: {fileID: 8569980348151547007, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}
   _spawnInterval: 1
   _spawnMin: 1
@@ -401,6 +414,7 @@ GameObject:
   - component: {fileID: 1669159773}
   - component: {fileID: 1669159775}
   - component: {fileID: 1669159774}
+  - component: {fileID: 1669159776}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -425,7 +439,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 450}
-  m_SizeDelta: {x: 400, y: 100}
+  m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669159774
 MonoBehaviour:
@@ -448,19 +462,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 17473ce6c3c377173b7c458b15a5498f, type: 3}
     m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
     m_MaxSize: 64
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SCORE: {HERE}'
+  m_Text: '{POINTS HERE}'
 --- !u!222 &1669159775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -469,6 +483,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669159772}
   m_CullTransparentMesh: 1
+--- !u!114 &1669159776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669159772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28a852b4805d870f9e4c903da78c668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplier: 1
+  scoreEnabled: 1
+  _pointsPerSecond: 10
 --- !u!1 &1809566281
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +581,7 @@ GameObject:
   - component: {fileID: 1887176405}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -634,7 +663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fc89dacd8d2f4519bf1e60c58c5752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveable: 1
+  moveable: 1
   _moveForce: 50
 --- !u!114 &1887176402
 MonoBehaviour:
@@ -781,8 +810,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 2
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

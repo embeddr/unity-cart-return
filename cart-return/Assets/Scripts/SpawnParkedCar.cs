@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnParkedCar : MonoBehaviour
 {
     [Tooltip("Spawning enabled")]
-    public bool _enabled = true;
+    public bool spawnEnabled = true;
 
     [Tooltip("Parked car prefab to spawn")]
     [SerializeField]
@@ -26,10 +26,25 @@ public class SpawnParkedCar : MonoBehaviour
     private const float _spawnPointX = 20.0F;
     private float _timeSinceSpawn = 0.0F;
 
+    void OnEnable()
+    {
+       PlayerObstacleCollision.OnCollision += PauseSpawn; 
+    }
+
+    void OnDisable()
+    {
+       PlayerObstacleCollision.OnCollision -= PauseSpawn; 
+    }
+
+    void PauseSpawn()
+    {
+        spawnEnabled = false;
+    }
+
     void Update()
     {
         _timeSinceSpawn += Time.deltaTime; 
-        if (_enabled && (_timeSinceSpawn > _spawnInterval)) {
+        if (spawnEnabled && (_timeSinceSpawn > _spawnInterval)) {
             Debug.Log("Spawning parked car(s)");
 
             _timeSinceSpawn = 0.0F;

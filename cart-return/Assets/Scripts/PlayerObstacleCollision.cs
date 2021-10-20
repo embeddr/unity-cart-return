@@ -18,12 +18,12 @@ public class PlayerObstacleCollision : MonoBehaviour
             Debug.Log("Obstacle collision!");
 
             // Disable player moveability and rigidbody constraints
-            GetComponent<MoveUpDown>().moveable = false;
+            GetComponent<PlayerControl>().State = PlayerControl.GameState.GameOver;
             var rb2d = GetComponent<Rigidbody2D>();
             rb2d.constraints = RigidbodyConstraints2D.None;
 
             // Fire a collision event
-            OnCollision();
+            OnCollision?.Invoke();
         }
     }
 }

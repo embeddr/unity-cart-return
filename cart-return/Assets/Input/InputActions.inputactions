@@ -14,9 +14,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pause/Restart",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "c4ee0a3d-f631-42c3-87e0-80898afdf5ee",
+                    "id": "d29b18d1-f313-4b18-aef3-28edf37413f6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -102,12 +102,99 @@
                 },
                 {
                     "name": "",
-                    "id": "e32247a7-cb51-4296-8eeb-da5b3f04480c",
-                    "path": "*/{Back}",
+                    "id": "2e6c8125-fc7c-4404-b368-30c8b43a7830",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Pause/Restart",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83925984-4354-4c4b-b7bc-b15523cec7ef",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Paused",
+            "id": "69c050b1-22f4-4af6-8ead-438c0c5eaeaf",
+            "actions": [
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "9683e923-e7dd-4bed-af8d-991e52dc5520",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3d68655e-c646-4db6-9caa-e6098ffe4f3c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e724e218-7b5c-47cb-bb13-fe4d827609fb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GameOver",
+            "id": "548011e3-d646-4980-a08c-1753ea677e60",
+            "actions": [
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "bc3cdd77-715a-4ea5-9d87-da45e1f05338",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9c6dbfc7-687d-4e64-9088-1b952e250c9b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4615bc28-6699-40c5-bfa9-854b41d642a5",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Restart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

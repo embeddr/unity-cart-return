@@ -474,7 +474,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{POINTS HERE}'
+  m_Text: '{POINTS}'
 --- !u!222 &1669159775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -663,7 +663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fc89dacd8d2f4519bf1e60c58c5752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveable: 1
   _moveForce: 50
 --- !u!114 &1887176402
 MonoBehaviour:
@@ -678,7 +677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 994735ada970e94f09d401c43b078373, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -691,9 +690,29 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ff1b66f9-4d30-4ffe-b3ca-b2426e21aef7
     m_ActionName: InGame/MoveUpDown[/Keyboard/downArrow,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d29b18d1-f313-4b18-aef3-28edf37413f6
+    m_ActionName: InGame/Pause[/Keyboard/space,/Gamepad/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc3cdd77-715a-4ea5-9d87-da45e1f05338
+    m_ActionName: GameOver/Restart[/Keyboard/space,/Gamepad/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: InGame

@@ -3,16 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Scrolling
+  - Spawner
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Boundary
+  - Obstacle
   - 
   - 
   - 
@@ -40,4 +42,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Interface
+    uniqueID: 3860824201
     locked: 0

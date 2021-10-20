@@ -5,24 +5,29 @@ using UnityEngine.InputSystem;
 
 public class MoveUpDown : MonoBehaviour
 {
-    private PlayerInput playerInput_;
-    private InputAction upDownAction_;
-    private Rigidbody2D rb2d_;
+    // Sets whether object should currently be moveable
+    public bool _moveable = true;
+
+    // Force to apply when moving the object 
+    [SerializeField]
+    private float _moveForce = 50.0F;
+
+    private PlayerInput _playerInput;
+    private InputAction _upDownAction;
+    private Rigidbody2D _rb2d;
 
     void Awake()
     {
-        rb2d_ = GetComponent<Rigidbody2D>();
-        playerInput_ = GetComponent<PlayerInput>();
-        upDownAction_ = playerInput_.actions["InGame/MoveUpDown"];
+        _rb2d = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
+        _upDownAction = _playerInput.actions["InGame/MoveUpDown"];
     }
 
     void FixedUpdate()
     {
-        var force = new Vector2(0, 50 * upDownAction_.ReadValue<float>());
-        rb2d_.AddForce(force);
-    }
-
-    public void SetUpDownInput(InputAction.CallbackContext context) {
-        Debug.Log("UpDown:" + context.ReadValue<float>());
+        if (_moveable) {
+            var force = new Vector2(0, _moveForce * _upDownAction.ReadValue<float>());
+            _rb2d.AddForce(force);
+        }
     }
 }

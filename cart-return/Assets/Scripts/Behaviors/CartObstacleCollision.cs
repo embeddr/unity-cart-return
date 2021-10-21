@@ -8,22 +8,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerObstacleCollision : MonoBehaviour
+public class CartObstacleCollision : MonoBehaviour
 {
     public delegate void CollisionHandler();
     public static event CollisionHandler OnCollision;
 
+    [Tooltip("PlayerControl component to update")]
+    [SerializeField]
+    private PlayerControl _playerControl;
+
     void OnCollisionEnter2D(Collision2D collision) {
-        // Check for obstacle collision
+        // Check for collision with obstacle
         if (collision.gameObject.tag == Tags.Obstacle.ToString()) {
-            Debug.Log("Obstacle collision!");
+            Debug.Log("Cart-obstacle collision!");
 
             // Move state to game over
-            GetComponent<PlayerControl>().State = PlayerControl.GameState.GameOver;
-
-            // Disable player rigidbody constraints
-            var rb2d = GetComponent<Rigidbody2D>();
-            rb2d.constraints = RigidbodyConstraints2D.None;
+            _playerControl.State = GameState.GameOver;
 
             // Fire a collision event for other behavior updates
             OnCollision?.Invoke();

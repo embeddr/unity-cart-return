@@ -17,12 +17,12 @@ public class ScrollLeft : MonoBehaviour
 
     void OnEnable()
     {
-       PlayerObstacleCollision.OnCollision += PauseScroll; 
+       CartObstacleCollision.OnCollision += PauseScroll; 
     }
 
     void OnDisable()
     {
-       PlayerObstacleCollision.OnCollision -= PauseScroll; 
+       CartObstacleCollision.OnCollision -= PauseScroll; 
     }
 
     void PauseScroll()

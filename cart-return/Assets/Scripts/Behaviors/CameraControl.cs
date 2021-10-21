@@ -8,12 +8,12 @@ public class CameraControl : MonoBehaviour
 {
     void OnEnable()
     {
-       PlayerObstacleCollision.OnCollision += FocusOnCollision; 
+       CartObstacleCollision.OnCollision += FocusOnCollision; 
     }
 
     void OnDisable()
     {
-       PlayerObstacleCollision.OnCollision -= FocusOnCollision; 
+       CartObstacleCollision.OnCollision -= FocusOnCollision; 
     }
 
     void FocusOnCollision()

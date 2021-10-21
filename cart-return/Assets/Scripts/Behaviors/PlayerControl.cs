@@ -11,15 +11,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
-    // Sets whether object should currently be moveable
-    // TODO: De-duplicate with ActionMap enum
-    // TODO: Move to general game state file
-    public enum GameState {
-        // TODO: Add Warmup, ReturnCart?
-        InGame,
-        Paused,
-        GameOver,
-    }
     public GameState State {
         get { return _state; }
         set {
@@ -28,13 +19,13 @@ public class PlayerControl : MonoBehaviour
             switch(value)
             {
                 case GameState.InGame:
-                    _playerInput.SwitchCurrentActionMap(ActionMaps.InGame.ToString());
+                    _playerInput.SwitchCurrentActionMap(GameState.InGame.ToString());
                     break;
                 case GameState.Paused:
-                    _playerInput.SwitchCurrentActionMap(ActionMaps.Paused.ToString());
+                    _playerInput.SwitchCurrentActionMap(GameState.Paused.ToString());
                     break;
                 case GameState.GameOver:
-                    _playerInput.SwitchCurrentActionMap(ActionMaps.GameOver.ToString());
+                    _playerInput.SwitchCurrentActionMap(GameState.GameOver.ToString());
                     break;
                 default:
                     Utils.ExitGame("Invalid game state");

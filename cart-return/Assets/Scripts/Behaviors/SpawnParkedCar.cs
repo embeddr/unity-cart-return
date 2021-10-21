@@ -34,12 +34,12 @@ public class SpawnParkedCar : MonoBehaviour
 
     void OnEnable()
     {
-       PlayerObstacleCollision.OnCollision += PauseSpawn; 
+       CartObstacleCollision.OnCollision += PauseSpawn; 
     }
 
     void OnDisable()
     {
-       PlayerObstacleCollision.OnCollision -= PauseSpawn; 
+       CartObstacleCollision.OnCollision -= PauseSpawn; 
     }
 
     void PauseSpawn()

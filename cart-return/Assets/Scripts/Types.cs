@@ -6,17 +6,17 @@ using UnityEngine;
 
 // Enum for compile-time checking of tag usage
 // Must be manually maintained to match tags defined in Unity
-enum Tags 
+public enum Tags 
 {
     MainCamera,
     Player,
     Obstacle,
 }
 
-// Enum for compile-time checking of action maps
-// Must be manually maintained to match action maps defined in Unity
-enum ActionMaps
-{
+// Game state
+// Should be manually maintained to match action maps defined in Unity
+public enum GameState {
+    // TODO: Add Warmup, ReturnCart?
     InGame,
     Paused,
     GameOver,

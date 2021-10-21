@@ -30,12 +30,12 @@ public class Score : MonoBehaviour
 
     void OnEnable()
     {
-       PlayerObstacleCollision.OnCollision += PauseScore; 
+       CartObstacleCollision.OnCollision += PauseScore; 
     }
 
     void OnDisable()
     {
-       PlayerObstacleCollision.OnCollision -= PauseScore; 
+       CartObstacleCollision.OnCollision -= PauseScore; 
     }
 
     void PauseScore()

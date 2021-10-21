@@ -11,6 +11,8 @@ public enum Tags
     MainCamera,
     Player,
     Obstacle,
+    StackedCart,
+    FreeCart,
 }
 
 // Game state

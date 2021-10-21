@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {
         // Handle player up/down control
-        var force = new Vector2(0, _moveForce * _upDownAction.ReadValue<float>());
+        var force = new Vector3(0, _moveForce * _upDownAction.ReadValue<float>(), 0);
         _rb2d.AddForce(force);
     }
 }

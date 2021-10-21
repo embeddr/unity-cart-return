@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - FreeCart
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - UI
   - Boundary
   - Obstacle
-  - Test
+  - StackedCart
   - 
   - 
   - 
@@ -41,7 +42,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Interface
-    uniqueID: 3860824201
     locked: 0

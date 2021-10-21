@@ -1,8 +1,9 @@
-// Player-obstacle collision behavior
+// Cart-obstacle collision behavior
 //
-// This is intended to be attached to the player object. Relieves player control at the time
-// of collision. More generally, exposes and fires an obstacle collision event, to which other
-// components can subscribe to appropriately respond to a player-obstacle collision.
+// Intended to be attached to the player cart and any stacked carts. Handles a collision between
+// the current (cart) object and an obstacle object. On collision, sets the game state to game
+// over. Additionally, exposes and fires an event, to which other components can subscribe to
+// appropriately respond to a cart-obstacle collision.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,8 @@ public class CartObstacleCollision : MonoBehaviour
     public delegate void CollisionHandler();
     public static event CollisionHandler OnCollision;
 
-    [Tooltip("PlayerControl component to update")]
-    [SerializeField]
-    private PlayerControl _playerControl;
+    [Tooltip("PlayerControl component for updating game state")]
+    public PlayerControl playerControl;
 
     void OnCollisionEnter2D(Collision2D collision) {
         // Check for collision with obstacle
@@ -23,7 +23,7 @@ public class CartObstacleCollision : MonoBehaviour
             Debug.Log("Cart-obstacle collision!");
 
             // Move state to game over
-            _playerControl.State = GameState.GameOver;
+            playerControl.State = GameState.GameOver;
 
             // Fire a collision event for other behavior updates
             OnCollision?.Invoke();

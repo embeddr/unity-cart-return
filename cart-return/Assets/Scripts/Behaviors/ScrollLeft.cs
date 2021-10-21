@@ -1,3 +1,8 @@
+// Scroll left behavior
+//
+// Simple logic to move the associated object to the left through the world. This creates
+// the illusion of the player moving to the right.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

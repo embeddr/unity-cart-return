@@ -1,3 +1,8 @@
+// Score-keeping behavior
+//
+// Simple time-based point accumulator. Must be attached to an object with a Text component.
+// Allows specifying a baseline points-per-second rate, as well as a multiplier.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,5 @@
+// General types (that don't fit in a more specific location)
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

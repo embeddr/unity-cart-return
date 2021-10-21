@@ -1,3 +1,8 @@
+// Player control behavior
+//
+// Contains simple logic for controlling the player and game state based on various
+// input actions.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

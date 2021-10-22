@@ -11,32 +11,61 @@ using UnityEngine;
 public class CartCartCollision : MonoBehaviour
 {
     [Tooltip("Stacked cart object/prefab to spawn on collision")]
-    public GameObject stackedObject;
-    private static int _count = 0;
+    public GameObject stackedCartObject;
 
-    // Note: Free carts are triggers
-    void OnTriggerEnter2D(Collider2D collider) {
-        // Check for collision with free cart 
-        if (collider.gameObject.tag == Tags.FreeCart.ToString()) {
+    private bool _frontCart = true;
+
+    // Count for number of stacked carts that have been created
+    private static int _stackCount = 0;
+    
+    // Duration a cart has been continuously colliding with this object
+    // Note: Assuming at most one cart is colliding with this object
+    private float _collisionTime = 0.0F;
+
+    void OnTriggerEnter2D(Collider2D other) {
+        // Check for collision between front stacked cart and free cart 
+        var oldCart = other.gameObject;
+        if (_frontCart && (oldCart.tag == Tags.FreeCart.ToString())) {
             Debug.Log("Cart-cart collision!");
 
             // Cache free cart's position and rotation
-            Vector2 cart_position = collider.gameObject.transform.position;
-            Quaternion cart_rotation = collider.gameObject.transform.rotation;
+            float cartY = oldCart.transform.position.y;
+            float cartX = transform.position.x + 0.5F;
 
             // Destroy free cart and instantiate stacked cart in its place (child)
-            Destroy(collider.gameObject);
-            var new_cart = Instantiate(stackedObject, cart_position, cart_rotation);
+            Destroy(oldCart);
+            var newCart = Instantiate(stackedCartObject,
+                                      new Vector2(cartX, cartY),
+                                      stackedCartObject.transform.rotation);
 
-            // Attach spring joint of new cart to this cart
-            new_cart.GetComponent<SpringJoint2D>().connectedBody = 
+            // Attach spring joint of new stacked cart to this cart
+            newCart.GetComponent<SpringJoint2D>().connectedBody = 
                     gameObject.GetComponent<Rigidbody2D>();
-            new_cart.name = stackedObject.name + (_count++).ToString();
+            newCart.name = stackedCartObject.name + (_stackCount++).ToString();
 
-            // Point new cart to appropriate prefabs/objects
-            new_cart.GetComponent<CartCartCollision>().stackedObject = stackedObject;
-            new_cart.GetComponent<CartObstacleCollision>().playerControl =
+            // Point new stacked cart to appropriate prefabs/objects
+            newCart.GetComponent<CartCartCollision>().stackedCartObject = stackedCartObject;
+            newCart.GetComponent<CartObstacleCollision>().playerControl =
                     GetComponent<CartObstacleCollision>().playerControl;
+
+            // This cart is no longer the front!
+            _frontCart = false;
         }
+    }
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        _collisionTime += Time.fixedDeltaTime;
+        if (_collisionTime > 0.25F) {
+            PolygonCollider2D[] colliders = 
+                collision.gameObject.GetComponents<PolygonCollider2D>();
+            foreach (PolygonCollider2D collider in colliders) {
+                collider.enabled = false;
+            }
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        _collisionTime = 0.0F;
     }
 }

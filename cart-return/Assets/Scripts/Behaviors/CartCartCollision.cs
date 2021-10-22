@@ -46,8 +46,6 @@ public class CartCartCollision : MonoBehaviour
 
             // Point new stacked cart to appropriate prefabs/objects
             newCart.GetComponent<CartCartCollision>().stackedCartObject = stackedCartObject;
-            newCart.GetComponent<CartObstacleCollision>().playerControl =
-                    GetComponent<CartObstacleCollision>().playerControl;
 
             // This cart is no longer the front!
             frontCart = false;

@@ -14,16 +14,13 @@ public class CartObstacleCollision : MonoBehaviour
     public delegate void CollisionHandler();
     public static event CollisionHandler OnCollision;
 
-    [Tooltip("PlayerControl component for updating game state")]
-    public PlayerControl playerControl;
-
     void OnCollisionEnter2D(Collision2D collision) {
         // Check for collision with obstacle
         if (collision.gameObject.tag == Tags.Obstacle.ToString()) {
             Debug.Log("Cart-obstacle collision!");
 
             // Move state to game over
-            playerControl.State = GameState.GameOver;
+            GameData.State = GameState.GameOver;
 
             // Fire a collision event for other behavior updates
             OnCollision?.Invoke();

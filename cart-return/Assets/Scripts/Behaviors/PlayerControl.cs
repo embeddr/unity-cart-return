@@ -11,30 +11,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
-    public GameState State {
-        get { return _state; }
-        set {
-            // Configure action maps according to new state
-            _state = value;
-            switch(value)
-            {
-                case GameState.InGame:
-                    _playerInput.SwitchCurrentActionMap(GameState.InGame.ToString());
-                    break;
-                case GameState.Paused:
-                    _playerInput.SwitchCurrentActionMap(GameState.Paused.ToString());
-                    break;
-                case GameState.GameOver:
-                    _playerInput.SwitchCurrentActionMap(GameState.GameOver.ToString());
-                    break;
-                default:
-                    Utils.ExitGame("Invalid game state");
-                    break;
-            }
-        }
-    }
-    private GameState _state = GameState.InGame;
-
     // Force to apply when moving the object 
     [SerializeField]
     private float _moveForce = 50.0F;
@@ -53,6 +29,8 @@ public class PlayerControl : MonoBehaviour
         _rb2d = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
 
+        GameData.init(_playerInput);
+
         _upDownAction = _playerInput.actions["InGame/MoveUpDown"];
         _pauseAction = _playerInput.actions["InGame/Pause"];
         _unpauseAction = _playerInput.actions["Paused/Unpause"];
@@ -64,10 +42,10 @@ public class PlayerControl : MonoBehaviour
         // Handling pausing/unpausing
         // TODO: show/hide paused text, darken screen a bit
         if (_pauseAction.triggered) {
-            State = GameState.Paused;
+            GameData.State = GameState.Paused;
             Time.timeScale = 0;
         } else if (_unpauseAction.triggered) {
-            State = GameState.InGame;
+            GameData.State = GameState.InGame;
             Time.timeScale = 1;
         }
 

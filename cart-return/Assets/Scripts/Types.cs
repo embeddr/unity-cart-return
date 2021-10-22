@@ -13,6 +13,7 @@ public enum Tags
     Obstacle,
     StackedCart,
     FreeCart,
+    ReturnZone,
 }
 
 // Game state

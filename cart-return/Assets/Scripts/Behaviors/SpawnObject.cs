@@ -17,9 +17,13 @@ public class SpawnObject : MonoBehaviour
     [SerializeField]
     private GameObject _object;
 
-    [Tooltip("Spawn interval in seconds")]
+    [Tooltip("Spawn interval, in seconds")]
     [SerializeField]
     private float _spawnInterval = 1.0F;
+
+    [Tooltip("Delay before starting spawning, in seconds")]
+    [SerializeField]
+    private float _spawnDelay = 0.0F;
 
     [Tooltip("Minimum number of objects to spawn at a time")]
     [SerializeField]
@@ -30,7 +34,8 @@ public class SpawnObject : MonoBehaviour
     private int _spawnMax = 3;
 
     private const float _spawnPointX = 20.0F;
-    private float _timeSinceSpawn = 0.0F;
+    private float timer = 0.0F;
+    private bool _delayExpired = false;
 
     void OnEnable()
     {
@@ -47,23 +52,38 @@ public class SpawnObject : MonoBehaviour
         spawnEnabled = false;
     }
 
+    void Spawn() {
+        Debug.Log("Spawning " + _object.name + "(s)");
+
+        // Determine number of instances to spawn
+        int count = Random.Range(_spawnMin, _spawnMax + 1);
+
+        // Determine y positions
+        for (int obj = 0; obj < count; obj++) {
+            var spawnPointY = Random.Range(-7.0F, 7.0F);
+            Instantiate(_object,
+                        new Vector2(_spawnPointX, spawnPointY),
+                        _object.transform.rotation);
+        }
+    }
+
     void Update()
     {
-        _timeSinceSpawn += Time.deltaTime; 
-        if (spawnEnabled && (_timeSinceSpawn > _spawnInterval)) {
-            Debug.Log("Spawning object(s)");
-
-            _timeSinceSpawn = 0.0F;
-
-            // Determine number of instances to spawn
-            int count = Random.Range(_spawnMin, _spawnMax + 1);
-
-            // Determine y positions
-            for (int obj = 0; obj < count; obj++) {
-                var spawnPointY = Random.Range(-8.0F, +8.0F);
-                Instantiate(_object,
-                            new Vector2(_spawnPointX, spawnPointY),
-                            _object.transform.rotation);
+        if (spawnEnabled) {
+            timer += Time.deltaTime; 
+            if (!_delayExpired) {
+                // Hande initial spawning delay
+                if (timer > _spawnDelay) {
+                    timer = 0.0F;
+                    _delayExpired = true;
+                    Spawn();
+                }
+            } else {
+                // Handle periodic spawning
+                if (timer > _spawnInterval) {
+                    timer = 0.0F;
+                    Spawn();
+                }
             }
         }
     }

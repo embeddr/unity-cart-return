@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 659287285}
   - component: {fileID: 659287286}
   - component: {fileID: 659287287}
+  - component: {fileID: 659287288}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -345,6 +346,7 @@ MonoBehaviour:
   spawnEnabled: 1
   _object: {fileID: 8569980348151547007, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}
   _spawnInterval: 1
+  _spawnDelay: 1.5
   _spawnMin: 1
   _spawnMax: 1
 --- !u!114 &659287287
@@ -362,6 +364,25 @@ MonoBehaviour:
   spawnEnabled: 1
   _object: {fileID: 233038937436154418, guid: aaa7057cd1398d15fa12a2365b43a380, type: 3}
   _spawnInterval: 2
+  _spawnDelay: 2
+  _spawnMin: 1
+  _spawnMax: 1
+--- !u!114 &659287288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659287284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ef539d286f23049f71c9e23cd0ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEnabled: 1
+  _object: {fileID: 390515566402477727, guid: dce8c289e07d987058533961658a6a9f, type: 3}
+  _spawnInterval: 20
+  _spawnDelay: 20
   _spawnMin: 1
   _spawnMax: 1
 --- !u!1 &1257803682
@@ -593,12 +614,12 @@ GameObject:
   - component: {fileID: 1887176400}
   - component: {fileID: 1887176399}
   - component: {fileID: 1887176403}
-  - component: {fileID: 1887176404}
   - component: {fileID: 1887176407}
   - component: {fileID: 1887176402}
   - component: {fileID: 1887176401}
   - component: {fileID: 1887176405}
   - component: {fileID: 1887176406}
+  - component: {fileID: 1887176404}
   m_Layer: 3
   m_Name: PlayerCart
   m_TagString: Player
@@ -759,32 +780,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
---- !u!61 &1887176404
-BoxCollider2D:
+--- !u!114 &1887176404
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887176398}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057ba04e8f6c4a1d8a9dabe8238b35d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1887176405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackedCartObject: {fileID: 5058742953647431904, guid: daa1dad60b1fa1244a32cd1f48ff4c9e, type: 3}
+  frontCart: 1
 --- !u!60 &1887176407
 PolygonCollider2D:
   m_ObjectHideFlags: 0

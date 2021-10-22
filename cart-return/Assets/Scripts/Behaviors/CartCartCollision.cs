@@ -13,7 +13,7 @@ public class CartCartCollision : MonoBehaviour
     [Tooltip("Stacked cart object/prefab to spawn on collision")]
     public GameObject stackedCartObject;
 
-    private bool _frontCart = true;
+    public bool frontCart = true;
 
     // Count for number of stacked carts that have been created
     private static int _stackCount = 0;
@@ -22,10 +22,11 @@ public class CartCartCollision : MonoBehaviour
     // Note: Assuming at most one cart is colliding with this object
     private float _collisionTime = 0.0F;
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) 
+    {
         // Check for collision between front stacked cart and free cart 
         var oldCart = other.gameObject;
-        if (_frontCart && (oldCart.tag == Tags.FreeCart.ToString())) {
+        if (frontCart && (oldCart.tag == Tags.FreeCart.ToString())) {
             Debug.Log("Cart-cart collision!");
 
             // Cache free cart's position and rotation
@@ -49,23 +50,29 @@ public class CartCartCollision : MonoBehaviour
                     GetComponent<CartObstacleCollision>().playerControl;
 
             // This cart is no longer the front!
-            _frontCart = false;
+            frontCart = false;
         }
     }
     void OnCollisionStay2D(Collision2D collision)
     {
-        _collisionTime += Time.fixedDeltaTime;
-        if (_collisionTime > 0.25F) {
-            PolygonCollider2D[] colliders = 
-                collision.gameObject.GetComponents<PolygonCollider2D>();
-            foreach (PolygonCollider2D collider in colliders) {
-                collider.enabled = false;
+        // If too much time spent in a collision with a free cart, disable cart's colliders
+        if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
+            _collisionTime += Time.fixedDeltaTime;
+            if (_collisionTime > 0.25F) {
+                PolygonCollider2D[] colliders = 
+                    collision.gameObject.GetComponents<PolygonCollider2D>();
+                foreach (PolygonCollider2D collider in colliders) {
+                    collider.enabled = false;
+                }
             }
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        _collisionTime = 0.0F;
+        // Reset collision timer on exit
+        if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
+            _collisionTime = 0.0F;
+        }
     }
 }

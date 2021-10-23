@@ -12,10 +12,11 @@ public class ScrollLeft : MonoBehaviour
     [Tooltip("Sets whether or not scrolling is enabled")]
     public bool scrollEnabled = true;
 
-    private Rigidbody2D _rb2d;
+    [Tooltip("Despawn at this X coordinate")]
+    [SerializeField]
+    private float _despawnX = -25.0F;
 
-    // TODO: Where should this actually be defined?
-    private const float ScrollVelocity = -10.0F;
+    private Rigidbody2D _rb2d;
 
     void Awake()
     {
@@ -42,12 +43,12 @@ public class ScrollLeft : MonoBehaviour
         if (scrollEnabled) {
             // Update rigidbody position to move at specified velocity
             var new_pos = transform.position;
-            new_pos.x += ScrollVelocity * Time.fixedDeltaTime;
+            new_pos.x += -1.0F * GameData.ScrollSpeed * Time.fixedDeltaTime;
             new_pos.y += _rb2d.velocity.y * Time.fixedDeltaTime;
             _rb2d.MovePosition(new_pos);
 
             // Despawn when sufficiently off-screen
-            if (gameObject.transform.position.x < -20.0F) {
+            if (gameObject.transform.position.x < _despawnX) {
                 Destroy(gameObject);
             }
         }

@@ -1,7 +1,6 @@
 // Player control behavior
 //
-// Contains simple logic for controlling the player and game state based on various
-// input actions.
+// Contains simple logic for controlling the player cart based on input actions.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -17,24 +16,20 @@ public class PlayerControl : MonoBehaviour
 
     private Rigidbody2D _rb2d;
 
-    // Player input and actions
-    private PlayerInput _playerInput;
+    // Player actions
     private InputAction _upDownAction;
     private InputAction _pauseAction;
     private InputAction _unpauseAction;
     private InputAction _restartAction;
 
-    void Awake()
+    void Start()
     {
         _rb2d = GetComponent<Rigidbody2D>();
-        _playerInput = GetComponent<PlayerInput>();
 
-        GameData.init(_playerInput);
-
-        _upDownAction = _playerInput.actions["InGame/MoveUpDown"];
-        _pauseAction = _playerInput.actions["InGame/Pause"];
-        _unpauseAction = _playerInput.actions["Paused/Unpause"];
-        _restartAction = _playerInput.actions["GameOver/Restart"];
+        _upDownAction = GameData.PlayerInput.actions["InGame/MoveUpDown"];
+        _pauseAction = GameData.PlayerInput.actions["InGame/Pause"];
+        _unpauseAction = GameData.PlayerInput.actions["Paused/Unpause"];
+        _restartAction = GameData.PlayerInput.actions["GameOver/Restart"];
     }
 
     void Update()

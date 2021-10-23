@@ -1,5 +1,6 @@
 # unity-cart-return
-Unity shopping cart return game prototype
+Prototype shopping cart endless runner game, created with Unity. Working title
+is "Minimum Wage". See the [design document](doc/design.md) for details!
 
 ## Software Versions
 Created using the following tool verisons:

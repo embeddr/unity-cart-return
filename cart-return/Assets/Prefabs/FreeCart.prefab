@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8885197965195091654}
   - component: {fileID: 6832742646039314400}
   - component: {fileID: 1300549176768671618}
+  - component: {fileID: 1321199496777387611}
   m_Layer: 7
   m_Name: FreeCart
   m_TagString: FreeCart
@@ -178,3 +179,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollEnabled: 1
+  _despawnX: -25
+--- !u!114 &1321199496777387611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233038937436154418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326140e275420e3958c3e7b3f99ac22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _object: {fileID: 5058742953647431904, guid: daa1dad60b1fa1244a32cd1f48ff4c9e, type: 3}

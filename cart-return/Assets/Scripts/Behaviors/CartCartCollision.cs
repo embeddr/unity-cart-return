@@ -10,42 +10,43 @@ using UnityEngine;
 
 public class CartCartCollision : MonoBehaviour
 {
-    [Tooltip("Stacked cart object/prefab to spawn on collision")]
-    public GameObject stackedCartObject;
-
+    // Boolean indicating whether or not this cart is at the front of the stack
+    // Note: Only the front cart in the stack can capture a free cart
     public bool frontCart = true;
 
     // Count for number of stacked carts that have been created
     private static int _stackCount = 0;
     
     // Duration a cart has been continuously colliding with this object
-    // Note: Assuming at most one cart is colliding with this object
     private float _collisionTime = 0.0F;
 
     void OnTriggerEnter2D(Collider2D other) 
     {
-        // Check for collision between front stacked cart and free cart 
-        var oldCart = other.gameObject;
-        if (frontCart && (oldCart.tag == Tags.FreeCart.ToString())) {
+        // Check for trigger between front stacked cart and free cart 
+        var freeCart = other.gameObject;
+        if (frontCart && (freeCart.tag == Tags.FreeCart.ToString())) {
             Debug.Log("Cart-cart collision!");
 
-            // Cache free cart's position and rotation
-            float cartY = oldCart.transform.position.y;
+            // Use free cart's previous vertical position, but use a fixed offset from the
+            // current cart's horizontal position so that the stack is consistently spaced.
+            float cartY = freeCart.transform.position.y;
             float cartX = transform.position.x + 0.5F;
 
-            // Destroy free cart and instantiate stacked cart in its place (child)
-            Destroy(oldCart);
-            var newCart = Instantiate(stackedCartObject,
-                                      new Vector2(cartX, cartY),
-                                      stackedCartObject.transform.rotation);
+            GameObject stackedCartObject = freeCart.GetComponent<ObjectContainer>()?.Object;
+            if (!stackedCartObject) {
+                Utils.ExitGame("Collided free cart holds no ObjectContainer or object is unset");
+            }
+
+            // Destroy free cart and instantiate stacked cart in its place
+            Destroy(freeCart);
+            var stackedCart = Instantiate(stackedCartObject,
+                                          new Vector2(cartX, cartY),
+                                          stackedCartObject.transform.rotation);
 
             // Attach spring joint of new stacked cart to this cart
-            newCart.GetComponent<SpringJoint2D>().connectedBody = 
+            stackedCart.GetComponent<SpringJoint2D>().connectedBody = 
                     gameObject.GetComponent<Rigidbody2D>();
-            newCart.name = stackedCartObject.name + (_stackCount++).ToString();
-
-            // Point new stacked cart to appropriate prefabs/objects
-            newCart.GetComponent<CartCartCollision>().stackedCartObject = stackedCartObject;
+            stackedCart.name = stackedCartObject.name + (_stackCount++).ToString();
 
             // This cart is no longer the front!
             frontCart = false;
@@ -53,7 +54,8 @@ public class CartCartCollision : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D collision)
     {
-        // If too much time spent in a collision with a free cart, disable cart's colliders
+        // If too much time spent in a collision with a free cart, disable its colliders
+        // Note: This simple approach assumes at most one cart is colliding with this object
         if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
             _collisionTime += Time.fixedDeltaTime;
             if (_collisionTime > 0.25F) {

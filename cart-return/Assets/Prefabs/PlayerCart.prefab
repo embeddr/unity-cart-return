@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fc89dacd8d2f4519bf1e60c58c5752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveForce: 75
+  _moveForce: 80
 --- !u!114 &6818558847886025244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d37e3b66e59bb2c967deefec763adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackedCartObject: {fileID: 5058742953647431904, guid: daa1dad60b1fa1244a32cd1f48ff4c9e, type: 3}
   frontCart: 1
 --- !u!114 &6818558847886025245
 MonoBehaviour:

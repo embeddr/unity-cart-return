@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5058742953647431904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1188845181
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
   m_FlipX: 0
@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d37e3b66e59bb2c967deefec763adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackedCartObject: {fileID: 0}
   frontCart: 1
 --- !u!114 &2984159357763513769
 MonoBehaviour:
@@ -195,3 +194,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057ba04e8f6c4a1d8a9dabe8238b35d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cartType: 0

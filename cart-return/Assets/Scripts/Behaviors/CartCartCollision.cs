@@ -48,6 +48,9 @@ public class CartCartCollision : MonoBehaviour
                     gameObject.GetComponent<Rigidbody2D>();
             stackedCart.name = stackedCartObject.name + (_stackCount++).ToString();
 
+            // Set new stacked cart's sorting order to appear on top 
+            stackedCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
+
             // This cart is no longer the front!
             frontCart = false;
         }

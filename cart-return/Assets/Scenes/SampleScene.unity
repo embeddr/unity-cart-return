@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 659287285}
   - component: {fileID: 659287286}
   - component: {fileID: 659287287}
+  - component: {fileID: 659287289}
   - component: {fileID: 659287288}
   m_Layer: 0
   m_Name: Spawner
@@ -454,7 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnEnabled: 1
   _object: {fileID: 233038937436154418, guid: aaa7057cd1398d15fa12a2365b43a380, type: 3}
-  _spawnInterval: 2
+  _spawnInterval: 4
   _spawnDelay: 2
   _spawnMin: 1
   _spawnMax: 1
@@ -474,6 +475,24 @@ MonoBehaviour:
   _object: {fileID: 390515566402477727, guid: dce8c289e07d987058533961658a6a9f, type: 3}
   _spawnInterval: 20
   _spawnDelay: 20
+  _spawnMin: 1
+  _spawnMax: 1
+--- !u!114 &659287289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659287284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ef539d286f23049f71c9e23cd0ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEnabled: 1
+  _object: {fileID: 6892317767306764139, guid: f2754865c9dc1dbfc8b7d658be675430, type: 3}
+  _spawnInterval: 4
+  _spawnDelay: 4
   _spawnMin: 1
   _spawnMax: 1
 --- !u!1 &1257803682
@@ -837,10 +856,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCart
       objectReference: {fileID: 0}
-    - target: {fileID: 6818558847886025240, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: _moveForce
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 6818558847886025241, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -940,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8569980348151547007, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}
       propertyPath: m_Name
-      value: ParkedCar
+      value: ParkedVehicle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}

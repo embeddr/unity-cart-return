@@ -44,6 +44,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: StackedCart
+    uniqueID: 3106122115
+    locked: 0
+  - name: FreeCart
+    uniqueID: 3395160665
+    locked: 0
   - name: UI
     uniqueID: 3471123269
     locked: 0

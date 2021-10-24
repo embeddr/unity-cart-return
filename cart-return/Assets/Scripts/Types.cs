@@ -19,7 +19,7 @@ public enum Tags
 // Game state
 // Should be manually maintained to match action maps defined in Unity
 public enum GameState {
-    // TODO: Add Warmup, ReturnCart?
+    // TODO: Add Warmup?
     InGame,
     Paused,
     GameOver,

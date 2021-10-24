@@ -8,17 +8,13 @@ using UnityEngine.InputSystem;
 
 public class InitializeGameData : MonoBehaviour
 {
-    [Tooltip("PlayerInput component to provide input data")]
-    [SerializeField]
-    private PlayerInput _playerInput;
-
     [Tooltip("Game configuration asset to load")]
     [SerializeField]
     private GameConfig _gameConfig;
 
     void Awake()
     {
-        GameData.init(_gameConfig, _playerInput);
+        GameData.init(_gameConfig);
     }
 
 }

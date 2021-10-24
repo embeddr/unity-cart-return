@@ -20,16 +20,19 @@ public class CartControl : MonoBehaviour
     private InputAction _moveUpDownAction;
 
     private Rigidbody2D _rb2d;
+    private Vector3 _force;
 
     void Awake()
     {
         _moveUpDownAction = _playerInput.actions["InGame/MoveUpDown"];
         _rb2d = GetComponent<Rigidbody2D>();
+        _force = new Vector3();
     }
 
     void FixedUpdate()
     {
         var force_y = _moveForce * _moveUpDownAction.ReadValue<float>();
-        _rb2d.AddForce(new Vector3(0, force_y, 0));
+        _force.y = force_y;
+        _rb2d.AddForce(_force);
     }
 }

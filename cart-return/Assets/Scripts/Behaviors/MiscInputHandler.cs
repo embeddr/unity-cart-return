@@ -1,6 +1,7 @@
 // Misc player input handling behavior
 //
 // Contains logic for handling player input that isn't associated with a specific object.
+// Also provides an implementation for updating input action maps on game state change.
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,22 @@ public class MiscInputHandler : MonoBehaviour
         _pauseAction = _playerInput.actions["InGame/Pause"];
         _unpauseAction = _playerInput.actions["Paused/Unpause"];
         _restartAction = _playerInput.actions["GameOver/Restart"];
+    }
+
+    void OnEnable()
+    {
+        GameData.OnStateChange += UpdateActionMap;
+    }
+
+    void OnDisable()
+    {
+        GameData.OnStateChange -= UpdateActionMap;
+    }
+
+    void UpdateActionMap(GameState newState)
+    {
+        // Currently a 1:1 mapping of game state and action map
+        _playerInput.SwitchCurrentActionMap(newState.ToString());
     }
 
     void Update()

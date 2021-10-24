@@ -1,7 +1,7 @@
 // Cart-obstacle collision behavior
 //
 // Intended to be attached to the player cart and any stacked carts. Handles a collision between
-// the current (cart) object and an obstacle object. On collision, sets the game state to game
+// the current cart object and an obstacle object. On collision, sets the game state to game
 // over. Additionally, exposes and fires an event, to which other components can subscribe to
 // appropriately respond to a cart-obstacle collision.
 

@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 
 public static class GameData
 {
-    public static PlayerInput PlayerInput { get; private set; }
+    public delegate void StateChangeHandler(GameState newState);
+    public static event StateChangeHandler OnStateChange;
 
     public static GameState State {
         get { return _gameState; }
         set {
-            PlayerInput.SwitchCurrentActionMap(value.ToString());
+            // Fire event on state change
+            OnStateChange?.Invoke(value);
             _gameState = value;
         }
     }
@@ -20,10 +22,8 @@ public static class GameData
     public static float ScrollSpeed { get; set; }
 
     // Initialize the game data
-    public static void init(GameConfig config, PlayerInput playerInput)
+    public static void init(GameConfig config)
     {
-        PlayerInput = playerInput;
-
         State = config.state;
         ScrollSpeed = config.scrollSpeed;
     }

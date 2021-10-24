@@ -20,6 +20,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Nudge",
+                    "type": "Button",
+                    "id": "b403f2f3-333b-4b14-ad14-63cbd9156a29",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -114,11 +122,33 @@
                 {
                     "name": "",
                     "id": "83925984-4354-4c4b-b7bc-b15523cec7ef",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43b7ba73-24ea-4bd3-8966-622f9a7d16c6",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Nudge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb74b6af-8dce-4ee3-8a6b-971c164f5902",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Nudge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -152,7 +182,7 @@
                 {
                     "name": "",
                     "id": "e724e218-7b5c-47cb-bb13-fe4d827609fb",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",

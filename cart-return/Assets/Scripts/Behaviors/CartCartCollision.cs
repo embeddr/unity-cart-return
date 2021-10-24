@@ -8,11 +8,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class CartCartCollision : MonoBehaviour
 {
     // Boolean indicating whether or not this cart is at the front of the stack
     // Note: Only the front cart in the stack can capture a free cart
-    public bool frontCart = true;
+    public bool isFrontCart = true;
 
     // Count for number of stacked carts that have been created
     private static int _stackCount = 0;
@@ -24,7 +26,7 @@ public class CartCartCollision : MonoBehaviour
     {
         // Check for trigger between front stacked cart and free cart 
         var freeCart = other.gameObject;
-        if (frontCart && (freeCart.tag == Tags.FreeCart.ToString())) {
+        if (isFrontCart && (freeCart.tag == Tags.FreeCart.ToString())) {
             Debug.Log("Cart-cart collision!");
 
             // Use free cart's previous vertical position, but use a fixed offset from the
@@ -34,7 +36,7 @@ public class CartCartCollision : MonoBehaviour
 
             GameObject stackedCartObject = freeCart.GetComponent<ObjectContainer>()?.Object;
             if (!stackedCartObject) {
-                Utils.ExitGame("Collided free cart holds no ObjectContainer or object is unset");
+                Utils.ExitGame("Collided free cart holds no ObjectContainer (or object is unset)");
             }
 
             // Destroy free cart and instantiate stacked cart in its place
@@ -44,15 +46,18 @@ public class CartCartCollision : MonoBehaviour
                                           stackedCartObject.transform.rotation);
 
             // Attach spring joint of new stacked cart to this cart
-            stackedCart.GetComponent<SpringJoint2D>().connectedBody = 
-                    gameObject.GetComponent<Rigidbody2D>();
+            SpringJoint2D joint = stackedCart.GetComponent<SpringJoint2D>();
+            if (!joint) {
+                Utils.ExitGame("Attempting to stack a GameObject with no spring joint component");
+            }
+            joint.connectedBody = GetComponent<Rigidbody2D>();
             stackedCart.name = stackedCartObject.name + (_stackCount++).ToString();
 
             // Set new stacked cart's sorting order to appear on top 
             stackedCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
 
             // This cart is no longer the front!
-            frontCart = false;
+            isFrontCart = false;
         }
     }
     void OnCollisionStay2D(Collision2D collision)
@@ -61,7 +66,7 @@ public class CartCartCollision : MonoBehaviour
         // Note: This simple approach assumes at most one cart is colliding with this object
         if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
             _collisionTime += Time.fixedDeltaTime;
-            if (_collisionTime > 0.25F) {
+            if (_collisionTime > 0.20F) {
                 PolygonCollider2D[] colliders = 
                     collision.gameObject.GetComponents<PolygonCollider2D>();
                 foreach (PolygonCollider2D collider in colliders) {

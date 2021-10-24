@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class ScrollLeft : MonoBehaviour
 {
     [Tooltip("Sets whether or not scrolling is enabled")]

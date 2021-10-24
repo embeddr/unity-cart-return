@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class CartReturn : MonoBehaviour
 {
     public enum CartType {
@@ -24,7 +26,7 @@ public class CartReturn : MonoBehaviour
         if (other.tag == Tags.ReturnZone.ToString()) {
             if (tag == Tags.Player.ToString()) {
                 Debug.Log("Player cart is now the front!");
-                GetComponent<CartCartCollision>().frontCart = true;
+                GetComponent<CartCartCollision>().isFrontCart = true;
             } else {
                 Debug.Log("Returning " + _cartType.ToString() + " cart!");
 

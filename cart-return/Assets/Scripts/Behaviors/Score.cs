@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Text))]
 public class Score : MonoBehaviour
 {
     [Tooltip("Multiplier for point accumulation")]

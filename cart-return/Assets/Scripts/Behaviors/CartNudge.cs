@@ -45,15 +45,20 @@ public class CartNudge : MonoBehaviour
 
     void Nudge(InputAction.CallbackContext context)
     {
-        // Apply fixed impulse to object to nudge it up or down based on the player's joystick
-        // position. If no up/down input is provided, then the nudge action is ignored.
-        float direction = _upDownAction.ReadValue<float>();
-        if (direction > 0.0F) {
-            var force = new Vector3(0, _impulseForce, 0);
-            _rb2d.AddForce(force, ForceMode2D.Impulse);
-        } else if (direction < 0.0F) {
-            var force = new Vector3(0, -1.0F * _impulseForce, 0);
-            _rb2d.AddForce(force, ForceMode2D.Impulse);
+        if (GameData.Nudges > 0) {
+            // Apply fixed impulse to object to nudge it up or down based on the player's joystick
+            // position. If no up/down input is provided, then the nudge action is ignored.
+            float direction = _upDownAction.ReadValue<float>();
+            if (direction > 0.0F) {
+                var force = new Vector3(0, _impulseForce, 0);
+                _rb2d.AddForce(force, ForceMode2D.Impulse);
+            } else if (direction < 0.0F) {
+                var force = new Vector3(0, -1.0F * _impulseForce, 0);
+                _rb2d.AddForce(force, ForceMode2D.Impulse);
+            }
+
+            // Decrement available nudges
+            GameData.Nudges--;
         }
     }
 }

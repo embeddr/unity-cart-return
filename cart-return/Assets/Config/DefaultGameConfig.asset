@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   scrollSpeed: 10
+  nudges: 2

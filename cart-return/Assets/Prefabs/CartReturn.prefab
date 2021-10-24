@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollEnabled: 1
+  _despawnX: -25
 --- !u!50 &390515566402477720
 Rigidbody2D:
   serializedVersion: 4

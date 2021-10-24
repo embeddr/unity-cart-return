@@ -38,10 +38,12 @@ public class CartReturn : MonoBehaviour
                         // TODO
                         break;
                     case CartType.Blue:
+                        // Blue carts reduce scroll speed
                         GameData.ScrollSpeed -= 1.0F;
                         break;
                     case CartType.Green:
-                        // TODO
+                        // Green carts provide nudges
+                        GameData.Nudges++;
                         break;
                     default:
                         Utils.ExitGame("Returned invalid cart type: " + ((int)_cartType).ToString());

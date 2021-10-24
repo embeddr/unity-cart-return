@@ -1,28 +1,23 @@
-// Score-keeping behavior
-//
-// Simple time-based point accumulator. Must be attached to an object with a Text component.
-// Allows specifying a baseline points-per-second rate, as well as a multiplier.
+// Score keeping and display behavior
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
-public class Score : MonoBehaviour
+public class DisplayScore : MonoBehaviour
 {
     [Tooltip("Multiplier for point accumulation")]
     public float multiplier = 1.0F;
 
     [Tooltip("Score is running")]
-    public bool scoreEnabled = true;
+    private bool scoreEnabled = true;
 
     [SerializeField]
     [Tooltip("Baseline points per second")]
     private float _pointsPerSecond = 10.0F;
 
     private Text _text;
-    private float _points = 0.0F;
+    private double _points = 0.0F;
 
     void Awake()
     {
@@ -44,7 +39,6 @@ public class Score : MonoBehaviour
         scoreEnabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (scoreEnabled) {

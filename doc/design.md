@@ -53,7 +53,7 @@ Minimum wage is a simple, 2D endless-runner in which the player must collect and
     - Could be UI elements, _or_ could be more implicit:
       - Slowdown: Reduced movement speed should be obvious
       - Magnetism: Front cart glows red, nearby carts also glow
-      - Agility: Player character's feet burn with green flames
+      - Nudge: Add green trailing lines behind carts when boosted up/down
 
 ---
 ## Gameplay Details
@@ -69,19 +69,19 @@ Returning carts of a given color to the cart return corral results in a temporar
 	- Intention is simply to make it easier to pick up carts as speed increases.
 	- Magnetic effect should require line-of-sight between the two carts.
 	- Also should probably only apply to the free cart, not the player's stack.
-- **Green: Player agility**
-    - Intention is to allow the player to navigate more effectively as the pace of the game increases.
+- **Green: Nudge/Boost carts**
+    - Intention is to give the player a consumable up/down boost that applies to the entire stack of players carts in order to allow escaping challenging scenarios or reach a cart or return corral that would otherwise be too far.
 
-**TODO: Need to work out how the effects play out over time:**
-- Full effect for a limited duration, then goes away entirely?
-    - Does the number of carts impact the effect, the duration, or both?
-- Full effect initially, but effect continually decays?
-    - Easier to reason about, but it might not be as fun to the player.
-- Could be different for each!
+**How do these effects play out over time?**
+- Each green cart provides one nudge consumable.
+- Each red cart provides two seconds of magnetism, also consumable.
+	- TBD if this will burn out the entire accumulated duration, or just two seconds.
+- Each blue cart immediately slows the scroll speed down when returned.
 	
 ### Cart Color Combos
 - In general, turning in more carts should increase the benefit to the player
-- To encourage more selective cart colleciton, collecting carts of the same color consecutively will award a X% bonus relative to collecting the same carts in mixed order.
+- To encourage more selective cart colleciton, collecting carts of the same color consecutively may award a X% bonus relative to collecting the same carts in mixed order.
+	- Having second thoughts on this - I don't know that this complexity brings much value.
 
 ### Point Collection
 - Points are collected at a base rate of 10 points per second times a multiplier (default 1.0)

@@ -419,7 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnEnabled: 1
   _object: {fileID: 5375323125853464029, guid: b5fc69c74e85f226794c71e0bf58e817, type: 3}
-  _spawnInterval: 3
+  _spawnInterval: 8
   _spawnDelay: 3
   _spawnMin: 1
   _spawnMax: 1

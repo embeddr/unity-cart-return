@@ -3,6 +3,7 @@
 // Provides functionality for nudging any cart up/down based on player input. This should be
 // attached to all stacked cart objects.
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,19 +47,15 @@ public class CartNudge : MonoBehaviour
     void Nudge(InputAction.CallbackContext context)
     {
         if (GameData.Nudges > 0) {
-            // Apply fixed impulse to object to nudge it up or down based on the player's joystick
-            // position. If no up/down input is provided, then the nudge action is ignored.
+            // Apply fixed impulse to object to nudge it up or down based on the player's
+            // up/down input. If no up/down input is provided, then the nudge is ignored.
             float direction = _upDownAction.ReadValue<float>();
-            if (direction > 0.0F) {
-                var force = new Vector3(0, _impulseForce, 0);
+            float sign = Math.Sign(direction); // note: Math, not Mathf!
+            if (sign != 0) {
+                var force = new Vector3(0, sign * _impulseForce, 0);
                 _rb2d.AddForce(force, ForceMode2D.Impulse);
-            } else if (direction < 0.0F) {
-                var force = new Vector3(0, -1.0F * _impulseForce, 0);
-                _rb2d.AddForce(force, ForceMode2D.Impulse);
+                GameData.Nudges--;
             }
-
-            // Decrement available nudges
-            GameData.Nudges--;
         }
     }
 }

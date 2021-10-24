@@ -60,6 +60,18 @@ public class CartCartCollision : MonoBehaviour
             isFrontCart = false;
         }
     }
+
+    void DisableColliders(GameObject obj)
+    {
+        // Disable all colliders for the given object
+        Collider2D[] colliders =
+            obj.GetComponents<Collider2D>();
+        foreach (Collider2D collider in colliders) {
+            collider.enabled = false;
+        }
+
+    }
+
     void OnCollisionStay2D(Collision2D collision)
     {
         // If too much time spent in a collision with a free cart, disable its colliders
@@ -67,12 +79,18 @@ public class CartCartCollision : MonoBehaviour
         if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
             _collisionTime += Time.fixedDeltaTime;
             if (_collisionTime > 0.20F) {
-                PolygonCollider2D[] colliders = 
-                    collision.gameObject.GetComponents<PolygonCollider2D>();
-                foreach (PolygonCollider2D collider in colliders) {
-                    collider.enabled = false;
-                }
+                DisableColliders(collision.gameObject);
             }
+
+            // Occasionally, a bad collision results in the collided cart being roated ~45
+            // degrees, pulling the player cart(s) up/down out of control. Disable colliders
+            // sooner if this occurs.
+            if (Mathf.Abs(collision.transform.eulerAngles.z) > 35.0F) {
+            if (_collisionTime > 0.05F) {
+                DisableColliders(collision.gameObject);
+            }
+        }
+
         }
     }
 

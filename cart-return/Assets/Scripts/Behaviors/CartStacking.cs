@@ -10,7 +10,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class CartCartCollision : MonoBehaviour
+public class CartStacking : MonoBehaviour
 {
     // Boolean indicating whether or not this cart is at the front of the stack
     // Note: Only the front cart in the stack can capture a free cart
@@ -43,7 +43,8 @@ public class CartCartCollision : MonoBehaviour
             Destroy(freeCart);
             var stackedCart = Instantiate(stackedCartObject,
                                           new Vector2(cartX, cartY),
-                                          stackedCartObject.transform.rotation);
+                                          stackedCartObject.transform.rotation,
+                                          transform);
 
             // Attach spring joint of new stacked cart to this cart
             SpringJoint2D joint = stackedCart.GetComponent<SpringJoint2D>();
@@ -55,6 +56,9 @@ public class CartCartCollision : MonoBehaviour
 
             // Set new stacked cart's sorting order to appear on top 
             stackedCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
+
+            // Increment stack size
+            GameData.StackSize++;
 
             // This cart is no longer the front!
             isFrontCart = false;

@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 5058742953647431908}
   - component: {fileID: 2950449936923910262}
   - component: {fileID: 5058742953647431898}
-  - component: {fileID: 1524517058999179661}
   - component: {fileID: 2984159357763513769}
   - component: {fileID: -3939650250227367354}
+  - component: {fileID: 2367725587172675210}
+  - component: {fileID: 1145065925122333667}
   m_Layer: 8
   m_Name: StackedCart
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 5058742953647431904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -170,19 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af3f9a7c94251ceb92860381d9f2608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1524517058999179661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5058742953647431904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64d37e3b66e59bb2c967deefec763adb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFrontCart: 1
 --- !u!114 &2984159357763513769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,3 +197,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _impulseForce: 5
+--- !u!114 &2367725587172675210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058742953647431904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38759ba1cb6f76deac1909691ad0e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnetismEnabled: 1
+--- !u!114 &1145065925122333667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058742953647431904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29b7127a30a61af58fe637f8c9c1a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFrontCart: 1

@@ -14,7 +14,7 @@ public class InitializeGameData : MonoBehaviour
 
     void Awake()
     {
-        GameData.init(_gameConfig);
+        int stackSize = GameObject.FindGameObjectWithTag("Player").transform.childCount;
+        GameData.init(_gameConfig, (uint)stackSize);
     }
-
 }

@@ -27,11 +27,16 @@ public static class GameData
     // Number of nudges available to the player
     public static uint Nudges { get; set; }
 
+    // Current cart stack size (not including the player)
+    public static uint StackSize { get; set; }
+
     // Initialize the game data
-    public static void init(GameConfig config)
+    public static void init(GameConfig config, uint stackSize)
     {
         State = config.state;
         ScrollSpeed = config.scrollSpeed;
         Nudges = config.nudges;
+
+        StackSize = stackSize;
     }
 }

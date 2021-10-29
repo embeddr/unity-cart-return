@@ -441,6 +441,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _impulseForce: 25
+--- !u!114 &1139770417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139770415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38759ba1cb6f76deac1909691ad0e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnetismEnabled: 1
+--- !u!114 &1139770418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139770415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29b7127a30a61af58fe637f8c9c1a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFrontCart: 1
 --- !u!1 &1257803682
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d28a852b4805d870f9e4c903da78c668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
   _pointsPerSecond: 10
 --- !u!1 &1692721322
 GameObject:
@@ -1155,6 +1180,7 @@ PrefabInstance:
       objectReference: {fileID: 1692721325}
     m_RemovedComponents:
     - {fileID: 6818558847886025240, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+    - {fileID: 6818558847886025247, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
 --- !u!1001 &8569980348507269329
 PrefabInstance:

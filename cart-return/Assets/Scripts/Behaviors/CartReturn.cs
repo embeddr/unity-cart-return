@@ -25,11 +25,13 @@ public class CartReturn : MonoBehaviour
     {
         if (other.tag == Tags.ReturnZone.ToString()) {
             if (tag == Tags.Player.ToString()) {
+                // TODO: assign parent cart as front instead?
                 Debug.Log("Player cart is now the front!");
-                GetComponent<CartCartCollision>().isFrontCart = true;
+                GetComponent<CartStacking>().isFrontCart = true;
             } else {
                 Debug.Log("Returning " + _cartType.ToString() + " cart!");
 
+                // Handle type-specific behavior
                 switch (_cartType) {
                     case CartType.Normal:
                         // No special behavior
@@ -50,6 +52,8 @@ public class CartReturn : MonoBehaviour
                         break;
                 }
 
+                // Decrement stack size and destroy object
+                GameData.StackSize--;
                 Destroy(gameObject);
             }
         }

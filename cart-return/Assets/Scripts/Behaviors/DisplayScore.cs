@@ -6,11 +6,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class DisplayScore : MonoBehaviour
 {
-    [Tooltip("Multiplier for point accumulation")]
-    public float multiplier = 1.0F;
-
     [Tooltip("Score is running")]
     private bool scoreEnabled = true;
+
+    [Tooltip("Multiplier bonus per cart")]
+    private float _bonusPerCart = 1.3F;
 
     [SerializeField]
     [Tooltip("Baseline points per second")]
@@ -42,6 +42,7 @@ public class DisplayScore : MonoBehaviour
     void Update()
     {
         if (scoreEnabled) {
+            float multiplier = Mathf.Pow(_bonusPerCart, GameData.StackSize);
             _points += (Time.deltaTime * _pointsPerSecond * multiplier);
             _text.text = _points.ToString("0");
         }

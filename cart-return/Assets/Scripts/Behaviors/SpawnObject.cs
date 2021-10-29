@@ -37,6 +37,8 @@ public class SpawnObject : MonoBehaviour
     private float timer = 0.0F;
     private bool _delayExpired = false;
 
+    private int _maxOverlapChecks = 5;
+
     void OnEnable()
     {
        CartObstacleCollision.OnCollision += PauseSpawn; 
@@ -60,10 +62,21 @@ public class SpawnObject : MonoBehaviour
 
         // Determine y positions
         for (int obj = 0; obj < count; obj++) {
-            var spawnPointY = Random.Range(-7.0F, 7.0F);
-            Instantiate(_object,
-                        new Vector2(_spawnPointX, spawnPointY),
-                        _object.transform.rotation);
+            // Attempt to find good spawn point
+            bool goodPosition = false;
+            for (int attempt = 0; attempt < _maxOverlapChecks; attempt++) {
+                var spawnPointY = Random.Range(-7.0F, 7.0F);
+                var collider = Physics2D.OverlapBox(new Vector2(_spawnPointX, spawnPointY),
+                                                    _object.transform.localScale,
+                                                    0,
+                                                    LayerMask.GetMask("Obstacle"));
+                if (!collider) {
+                    Instantiate(_object,
+                                new Vector2(_spawnPointX, spawnPointY),
+                                _object.transform.rotation);
+                    break;
+                }
+            }
         }
     }
 

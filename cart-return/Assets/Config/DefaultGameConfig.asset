@@ -15,3 +15,4 @@ MonoBehaviour:
   state: 0
   scrollSpeed: 10
   nudges: 2
+  magnetismTime: 5

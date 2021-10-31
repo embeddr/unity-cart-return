@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Magnetism",
+                    "type": "Button",
+                    "id": "4ed69285-e9c0-471b-9bd9-f37672d359d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -45,7 +53,7 @@
                 {
                     "name": "negative",
                     "id": "b00e6a4f-8d7d-47e6-b0e7-3ed08c63cdad",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -56,7 +64,7 @@
                 {
                     "name": "positive",
                     "id": "7cfc3920-d24b-4a1f-bc41-90695514cc88",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -133,7 +141,7 @@
                 {
                     "name": "",
                     "id": "43b7ba73-24ea-4bd3-8966-622f9a7d16c6",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -149,6 +157,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Nudge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9df677c-f10c-4ddb-afdc-c836c7346856",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Magnetism",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d48f81f-0ee1-4a32-977b-dfad3db43d81",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Magnetism",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

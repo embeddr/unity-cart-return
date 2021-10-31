@@ -24,11 +24,7 @@ public class CartReturn : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == Tags.ReturnZone.ToString()) {
-            if (tag == Tags.Player.ToString()) {
-                // TODO: assign parent cart as front instead?
-                Debug.Log("Player cart is now the front!");
-                GetComponent<CartStacking>().isFrontCart = true;
-            } else {
+            if (tag != Tags.Player.ToString()) {
                 Debug.Log("Returning " + _cartType.ToString() + " cart!");
 
                 // Handle type-specific behavior
@@ -37,7 +33,8 @@ public class CartReturn : MonoBehaviour
                         // No special behavior
                         break;
                     case CartType.Red:
-                        // TODO
+                        // Red carts provide magnetism time
+                        GameData.MagnetismTime += 2.0F;
                         break;
                     case CartType.Blue:
                         // Blue carts reduce scroll speed
@@ -50,6 +47,12 @@ public class CartReturn : MonoBehaviour
                     default:
                         Utils.ExitGame("Returned invalid cart type: " + ((int)_cartType).ToString());
                         break;
+                }
+
+                // Parent cart is now the front
+                var cartStacking = transform.parent.GetComponent<CartStacking>();
+                if (cartStacking) {
+                    cartStacking.isFrontCart = true;
                 }
 
                 // Decrement stack size and destroy object

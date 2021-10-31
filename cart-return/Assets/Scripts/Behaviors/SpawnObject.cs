@@ -55,8 +55,6 @@ public class SpawnObject : MonoBehaviour
     }
 
     void Spawn() {
-        Debug.Log("Spawning " + _object.name + "(s)");
-
         // Determine number of instances to spawn
         int count = Random.Range(_spawnMin, _spawnMax + 1);
 

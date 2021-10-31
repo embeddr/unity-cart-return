@@ -27,6 +27,9 @@ public static class GameData
     // Number of nudges available to the player
     public static uint Nudges { get; set; }
 
+    // Magnetism time available in seconds
+    public static float MagnetismTime { get; set; }
+
     // Current cart stack size (not including the player)
     public static uint StackSize { get; set; }
 
@@ -36,6 +39,7 @@ public static class GameData
         State = config.state;
         ScrollSpeed = config.scrollSpeed;
         Nudges = config.nudges;
+        MagnetismTime = config.magnetismTime;
 
         StackSize = stackSize;
     }

@@ -14,4 +14,7 @@ public class GameConfig : ScriptableObject
 
     [Tooltip("Initial nudges available to player")]
     public uint nudges;
+
+    [Tooltip("Initial magnetism time available to player")]
+    public float magnetismTime;
 }

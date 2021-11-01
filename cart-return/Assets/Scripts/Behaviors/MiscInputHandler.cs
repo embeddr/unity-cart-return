@@ -26,18 +26,18 @@ public class MiscInputHandler : MonoBehaviour
 
     void OnEnable()
     {
-        GameData.OnStateChange += UpdateActionMap;
+        GameData.OnGameStateChange += UpdateActionMap;
     }
 
     void OnDisable()
     {
-        GameData.OnStateChange -= UpdateActionMap;
+        GameData.OnGameStateChange -= UpdateActionMap;
     }
 
-    void UpdateActionMap(GameState newState)
+    void UpdateActionMap(GameState newGameState)
     {
         // Currently a 1:1 mapping of game state and action map
-        _playerInput.SwitchCurrentActionMap(newState.ToString());
+        _playerInput.SwitchCurrentActionMap(newGameState.ToString());
     }
 
     void Update()

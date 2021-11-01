@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 2334414215573088648}
   - component: {fileID: 6818558847886025244}
   - component: {fileID: 6818558847886025245}
+  - component: {fileID: 4480313466695286722}
+  - component: {fileID: 3431670561355996019}
   m_Layer: 3
   m_Name: PlayerCart
   m_TagString: Player
@@ -163,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29b7127a30a61af58fe637f8c9c1a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFrontCart: 1
 --- !u!114 &6818558847886025244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,3 +190,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cartType: 0
+--- !u!114 &4480313466695286722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818558847886025223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46beffc84ebb73ae4bf2864473e493cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _impulseForce: 25
+--- !u!114 &3431670561355996019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818558847886025223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38759ba1cb6f76deac1909691ad0e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

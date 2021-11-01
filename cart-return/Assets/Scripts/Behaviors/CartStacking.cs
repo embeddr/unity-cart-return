@@ -12,25 +12,37 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class CartStacking : MonoBehaviour
 {
-    // Boolean indicating whether or not this cart is at the front of the stack
-    // Note: Only the front cart in the stack can capture a free cart
-    public bool isFrontCart = true;
-
     // Count for number of stacked carts that have been created
     private static int _stackCount = 0;
     
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
 
+    // Whether or not this cart is the front cart in the player cart stack
+    private bool _isFrontCart;
+
+    void OnEnable()
+    {
+        GameData.OnFrontCartChange += CheckFrontCart;
+    }
+
+    void OnDisable()
+    {
+        GameData.OnFrontCartChange -= CheckFrontCart;
+    }
+
+    void CheckFrontCart(GameObject newFrontCart)
+    {
+        _isFrontCart = (newFrontCart = gameObject);
+    }
+
     void OnTriggerEnter2D(Collider2D other) 
     {
         // Check for trigger between front stacked cart and free cart 
-        var freeCart = other.gameObject;
-        if (isFrontCart && (freeCart.tag == Tags.FreeCart.ToString())) {
-            Debug.Log("Cart-cart collision!");
-
+        if (_isFrontCart && (other.gameObject.tag == Tags.FreeCart.ToString())) {
             // Use free cart's previous vertical position, but use a fixed offset from the
             // current cart's horizontal position so that the stack is consistently spaced.
+            var freeCart = other.gameObject;
             float cartY = freeCart.transform.position.y;
             float cartX = transform.position.x + 0.5F;
 
@@ -57,11 +69,9 @@ public class CartStacking : MonoBehaviour
             // Set new stacked cart's sorting order to appear on top 
             stackedCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
 
-            // Increment stack size
+            // Update relevant game data
+            GameData.FrontCart = stackedCart;
             GameData.StackSize++;
-
-            // This cart is no longer the front!
-            isFrontCart = false;
         }
     }
 

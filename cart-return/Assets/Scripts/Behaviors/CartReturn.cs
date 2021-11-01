@@ -50,10 +50,7 @@ public class CartReturn : MonoBehaviour
                 }
 
                 // Parent cart is now the front
-                var cartStacking = transform.parent.GetComponent<CartStacking>();
-                if (cartStacking) {
-                    cartStacking.isFrontCart = true;
-                }
+                GameData.FrontCart = transform.parent.gameObject;
 
                 // Decrement stack size and destroy object
                 GameData.StackSize--;

@@ -14,7 +14,9 @@ public class InitializeGameData : MonoBehaviour
 
     void Awake()
     {
-        int stackSize = GameObject.FindGameObjectWithTag("Player").transform.childCount;
-        GameData.init(_gameConfig, (uint)stackSize);
+        // For now, assume only one player cart in stack
+        GameObject playerCart = GameObject.FindGameObjectWithTag("Player");
+        var stackSize = 1;
+        GameData.init(_gameConfig, playerCart, (uint)stackSize);
     }
 }

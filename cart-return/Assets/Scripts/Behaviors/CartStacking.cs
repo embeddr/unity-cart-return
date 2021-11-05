@@ -29,11 +29,12 @@ public class CartStacking : MonoBehaviour
     void OnDisable()
     {
         GameData.OnFrontCartChange -= CheckFrontCart;
+        _isFrontCart = false;
     }
 
     void CheckFrontCart(GameObject newFrontCart)
     {
-        _isFrontCart = (newFrontCart = gameObject);
+        _isFrontCart = (newFrontCart == gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other) 
@@ -100,10 +101,10 @@ public class CartStacking : MonoBehaviour
             // degrees, pulling the player cart(s) up/down out of control. Disable colliders
             // sooner if this occurs.
             if (Mathf.Abs(collision.transform.eulerAngles.z) > 35.0F) {
-            if (_collisionTime > 0.05F) {
-                DisableColliders(collision.gameObject);
+                if (_collisionTime > 0.05F) {
+                    DisableColliders(collision.gameObject);
+                }
             }
-        }
 
         }
     }

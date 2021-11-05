@@ -106,7 +106,7 @@ Rigidbody2D:
   m_AngularDrag: 10
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
@@ -208,4 +208,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29b7127a30a61af58fe637f8c9c1a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFrontCart: 1

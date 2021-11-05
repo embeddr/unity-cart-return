@@ -266,7 +266,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
@@ -1243,6 +1243,22 @@ PrefabInstance:
     - target: {fileID: 6818558847886025241, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818558847886025242, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818558847886025242, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818558847886025246, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.0285715
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818558847886025246, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.6857142
       objectReference: {fileID: 0}
     - target: {fileID: 7499002843497565796, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: _playerInput

@@ -23,7 +23,7 @@ public class CartReturn : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == Tags.ReturnZone.ToString()) {
+        if (other.CompareTag(Tags.ReturnZone.ToString())) {
             if (tag != Tags.Player.ToString()) {
                 Debug.Log("Returning " + _cartType.ToString() + " cart!");
 

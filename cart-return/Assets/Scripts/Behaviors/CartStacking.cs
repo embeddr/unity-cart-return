@@ -18,29 +18,11 @@ public class CartStacking : MonoBehaviour
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
 
-    // Whether or not this cart is the front cart in the player cart stack
-    private bool _isFrontCart;
-
-    void OnEnable()
-    {
-        GameData.OnFrontCartChange += CheckFrontCart;
-    }
-
-    void OnDisable()
-    {
-        GameData.OnFrontCartChange -= CheckFrontCart;
-        _isFrontCart = false;
-    }
-
-    void CheckFrontCart(GameObject newFrontCart)
-    {
-        _isFrontCart = (newFrontCart == gameObject);
-    }
-
     void OnTriggerEnter2D(Collider2D other) 
     {
+        bool isFrontCart = (GameData.FrontCart == gameObject);
         // Check for trigger between front stacked cart and free cart 
-        if (_isFrontCart && (other.gameObject.tag == Tags.FreeCart.ToString())) {
+        if (isFrontCart && (other.gameObject.CompareTag(Tags.FreeCart.ToString()))) {
             // Use free cart's previous vertical position, but use a fixed offset from the
             // current cart's horizontal position so that the stack is consistently spaced.
             var freeCart = other.gameObject;
@@ -91,7 +73,7 @@ public class CartStacking : MonoBehaviour
     {
         // If too much time spent in a collision with a free cart, disable its colliders
         // Note: This simple approach assumes at most one cart is colliding with this object
-        if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
+        if (collision.gameObject.CompareTag(Tags.FreeCart.ToString())) {
             _collisionTime += Time.fixedDeltaTime;
             if (_collisionTime > 0.20F) {
                 DisableColliders(collision.gameObject);
@@ -112,7 +94,7 @@ public class CartStacking : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         // Reset collision timer on exit
-        if (collision.gameObject.tag == Tags.FreeCart.ToString()) {
+        if (collision.gameObject.CompareTag(Tags.FreeCart.ToString())) {
             _collisionTime = 0.0F;
         }
     }

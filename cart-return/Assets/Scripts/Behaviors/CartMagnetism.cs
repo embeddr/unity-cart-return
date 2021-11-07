@@ -72,7 +72,7 @@ public class CartMagnetism : MonoBehaviour
 
             // Apply magnetism effect to vertically align free carts with front cart in stack
             for (int i = 0; i < numColliders; i++) {
-                if (_colliders[i].tag == "FreeCart") {
+                if (_colliders[i].CompareTag("FreeCart")) {
                     // TODO: check for clear LOS from object to target y coord?
                     Rigidbody2D rb2d = _colliders[i].gameObject.GetComponent<Rigidbody2D>();
                     // TODO: This is a great place for a PID!

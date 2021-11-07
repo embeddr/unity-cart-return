@@ -61,7 +61,6 @@ public class SpawnObject : MonoBehaviour
         // Determine y positions
         for (int obj = 0; obj < count; obj++) {
             // Attempt to find good spawn point
-            bool goodPosition = false;
             for (int attempt = 0; attempt < _maxOverlapChecks; attempt++) {
                 var spawnPointY = Random.Range(-7.0F, 7.0F);
                 var collider = Physics2D.OverlapBox(new Vector2(_spawnPointX, spawnPointY),

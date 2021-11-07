@@ -20,6 +20,9 @@ public static class GameData
     public delegate void ScrollSpeedChangeHandler(float newScrollSpeed);
     public static event ScrollSpeedChangeHandler OnScrollSpeedChange;
 
+    public delegate void StackSizeChangeHandler(uint newStackSize);
+    public static event StackSizeChangeHandler OnStackSizeChange;
+
     ///////////////////////////////////////////////////////////////////////////
     // Game data properties
     ///////////////////////////////////////////////////////////////////////////
@@ -61,7 +64,14 @@ public static class GameData
     private static GameObject _frontCart;
 
     // Cart stack size (not including the player)
-    public static uint StackSize { get; set; }
+    public static uint StackSize {
+        get { return _stackSize; }
+        set {
+            OnStackSizeChange?.Invoke(value);
+            _stackSize = value;
+        }
+    }
+    private static uint _stackSize;
 
     ///////////////////////////////////////////////////////////////////////////
     // Helper functions

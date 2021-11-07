@@ -18,13 +18,32 @@ public class CartMagnetism : MonoBehaviour
     [SerializeField]
     private AudioSource _magnetismSoundSource;
 
-    private bool _magnetismEnabled = false;
+    [Tooltip("Required magnetism spin-down time in seconds")]
+    [SerializeField]
+    private float _magnetismSpindownTimeRequired = 0.25F;
+
+    [Tooltip("Base sound effect start/stop pitch")]
+    [SerializeField]
+    private float _magnetismPitchStart = 0.1F;
+
+    // Whether or not magnetism has been requested by the player
+    private bool _magnetismRequested = false;
+    
+    // Magnitism state
+    enum MagnetismState {
+        Inactive,
+        Active,
+        Spindown,
+    }
+    private MagnetismState _magnetismState = MagnetismState.Inactive;
 
     private Collider2D[] _colliders = new Collider2D[10];
 
     private InputAction _magnetismAction;
 
     private float _magnetismPitchTarget;
+
+    private float _magnetismSpindownTime;
 
     void Awake()
     {
@@ -55,22 +74,68 @@ public class CartMagnetism : MonoBehaviour
 
     void ToggleMagnetism(InputAction.CallbackContext context)
     {
-        _magnetismEnabled = !_magnetismEnabled;
+        _magnetismRequested = !_magnetismRequested;
     }
 
     void DisableMagnetism()
     {
-        _magnetismEnabled = false;
+        _magnetismRequested = false;
     }
 
     void FixedUpdate()
     {
-        if (_magnetismEnabled && (GameData.MagnetismTime > 0.0F)) {
+        // Decrement magnetism time if active
+        if (_magnetismState != MagnetismState.Inactive) {
+            GameData.MagnetismTime -= Time.fixedDeltaTime;
+            // Clamp at zero
+            if (GameData.MagnetismTime < 0.0F) {
+                GameData.MagnetismTime = 0.0F;
+            }
+        }
+
+        // Update magnetism state machine
+        switch (_magnetismState) {
+            case MagnetismState.Inactive:
+                // Transition to active if requested and time is available
+                if (_magnetismRequested && GameData.MagnetismTime > 0.0F) {
+                    _magnetismState = MagnetismState.Active;
+                }
+                break;
+            case MagnetismState.Active:
+                // Transition to spindown if no longer requested
+                if (!_magnetismRequested) {
+                    _magnetismSpindownTime = _magnetismSpindownTimeRequired;
+                    _magnetismState = MagnetismState.Spindown;
+                }
+
+                // Transition to inactive if no magnetism time remaining
+                if (GameData.MagnetismTime <= 0.0F) {
+                    GameData.MagnetismTime = 0.0F;
+                    _magnetismRequested = false;
+                    _magnetismState = MagnetismState.Inactive;
+                }
+                break;
+            case MagnetismState.Spindown:
+                // Transition to inactive if spin-down time or magnetism time reach zero
+                _magnetismSpindownTime -= Time.fixedDeltaTime;
+                if ((_magnetismSpindownTime <= 0.0F) || (GameData.MagnetismTime <= 0.0F)) {
+                    _magnetismState = MagnetismState.Inactive;
+                } else if (_magnetismRequested) {
+                    // Otherwise, transition back to active if requested
+                    _magnetismState = MagnetismState.Active;
+                }
+                break;
+        }
+
+        // Apply magnetism effect
+        if (_magnetismState != MagnetismState.Inactive) {
             // Play base sound while magnetism is enabled
             if (!_magnetismSoundSource.isPlaying) {
-                _magnetismSoundSource.pitch = 0.1F;
+                _magnetismSoundSource.pitch = _magnetismPitchStart;
                 _magnetismSoundSource.Play();
             }
+
+            // Pitch up when first enabled
             if (_magnetismSoundSource.pitch < _magnetismPitchTarget) {
                 _magnetismSoundSource.pitch += 0.1F;
             }
@@ -80,7 +145,6 @@ public class CartMagnetism : MonoBehaviour
                                       GameData.FrontCart.transform.position.y);
             ContactFilter2D filter = new ContactFilter2D();
             filter.SetLayerMask(LayerMask.GetMask("Obstacle"));
-
             int numColliders = Physics2D.OverlapCircle(pos,
                                                        _radius,
                                                        filter,
@@ -98,15 +162,19 @@ public class CartMagnetism : MonoBehaviour
                 }
             }
 
-            // Decrement available magnetism time
-            GameData.MagnetismTime -= Time.fixedDeltaTime;
-            if (GameData.MagnetismTime < 0.0F) {
-                GameData.MagnetismTime = 0.0F;
+            // Spin down sound
+            if (_magnetismState == MagnetismState.Spindown) {
+                // Reduce pitch so that we reach the starting pitch at the end of spin-down
+                float timeRatio = (Time.fixedDeltaTime / _magnetismSpindownTime);
+                _magnetismSoundSource.pitch -= timeRatio * (_magnetismSoundSource.pitch - _magnetismPitchStart);
 
-                // Also disable magnetism when time hits zero
-                _magnetismEnabled = false;
+                // Clamp at start pitch
+                if (_magnetismSoundSource.pitch < _magnetismPitchStart) {
+                    _magnetismSoundSource.pitch = _magnetismPitchStart;
+                }
             }
         } else {
+            // Stop base sound
             _magnetismSoundSource.Stop();
         }
     }

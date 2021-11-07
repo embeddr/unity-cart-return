@@ -15,7 +15,6 @@ public class DisplayMagnetism : MonoBehaviour
 
     void Update()
     {
-        
         _text.text = string.Format("Magnetism: {0:0.00}", GameData.MagnetismTime);
     }
 }

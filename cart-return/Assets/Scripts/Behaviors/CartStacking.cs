@@ -18,6 +18,10 @@ public class CartStacking : MonoBehaviour
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
 
+    [Tooltip("Audio source for cart sliding sound")]
+    [SerializeField]
+    private AudioSource _slidingSoundSource;
+
     void OnTriggerEnter2D(Collider2D other) 
     {
         bool isFrontCart = (GameData.FrontCart == gameObject);
@@ -79,11 +83,15 @@ public class CartStacking : MonoBehaviour
                 DisableColliders(collision.gameObject);
             }
 
-            // Occasionally, a bad collision results in the collided cart being roated ~45
-            // degrees, pulling the player cart(s) up/down out of control. Disable colliders
-            // sooner if this occurs.
-            if (Mathf.Abs(collision.transform.eulerAngles.z) > 35.0F) {
-                if (_collisionTime > 0.05F) {
+            if (_collisionTime > 0.05F) {
+                // Play cart sliding sound
+                if (!_slidingSoundSource.isPlaying) {
+                    _slidingSoundSource.Play();
+                }
+
+                // Occasionally, a bad collision results in the collided cart being roated
+                // ~45 degrees, pulling the player cart(s) up/down out of control.
+                if (Mathf.Abs(collision.transform.eulerAngles.z) > 35.0F) {
                     DisableColliders(collision.gameObject);
                 }
             }

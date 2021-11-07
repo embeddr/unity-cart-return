@@ -14,11 +14,17 @@ public class CartMagnetism : MonoBehaviour
     [Tooltip("Radius of magnetic effect")]
     private float _radius = 3.0F;
 
+    [Tooltip("Audio source for magnetism sound effect")]
+    [SerializeField]
+    private AudioSource _magnetismSoundSource;
+
     private bool _magnetismEnabled = false;
 
     private Collider2D[] _colliders = new Collider2D[10];
 
     private InputAction _magnetismAction;
+
+    private float _magnetismPitchTarget;
 
     void Awake()
     {
@@ -32,6 +38,7 @@ public class CartMagnetism : MonoBehaviour
         }
 
         _magnetismAction = playerInput.actions["InGame/Magnetism"];
+        _magnetismPitchTarget = _magnetismSoundSource.pitch;
     }
 
     void OnEnable()
@@ -59,12 +66,21 @@ public class CartMagnetism : MonoBehaviour
     void FixedUpdate()
     {
         if (_magnetismEnabled && (GameData.MagnetismTime > 0.0F)) {
-            ContactFilter2D filter = new ContactFilter2D();
-            filter.SetLayerMask(LayerMask.GetMask("Obstacle"));
+            // Play base sound while magnetism is enabled
+            if (!_magnetismSoundSource.isPlaying) {
+                _magnetismSoundSource.pitch = 0.1F;
+                _magnetismSoundSource.Play();
+            }
+            if (_magnetismSoundSource.pitch < _magnetismPitchTarget) {
+                _magnetismSoundSource.pitch += 0.1F;
+            }
 
             // Project circle ahead of front cart, find all overlapping colliders
             Vector2 pos = new Vector2(GameData.FrontCart.transform.position.x + _radius,
                                       GameData.FrontCart.transform.position.y);
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(LayerMask.GetMask("Obstacle"));
+
             int numColliders = Physics2D.OverlapCircle(pos,
                                                        _radius,
                                                        filter,
@@ -86,7 +102,12 @@ public class CartMagnetism : MonoBehaviour
             GameData.MagnetismTime -= Time.fixedDeltaTime;
             if (GameData.MagnetismTime < 0.0F) {
                 GameData.MagnetismTime = 0.0F;
+
+                // Also disable magnetism when time hits zero
+                _magnetismEnabled = false;
             }
+        } else {
+            _magnetismSoundSource.Stop();
         }
     }
 }

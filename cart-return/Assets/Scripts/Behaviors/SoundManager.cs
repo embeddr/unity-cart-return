@@ -10,17 +10,26 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource _collisionSoundSource;
 
+    private float _initialPitch;
+
+    void Awake()
+    {
+        _initialPitch = _rollingSoundSource.pitch;
+    }
+
     void OnEnable()
     {
-        GameData.OnGameStateChange += UpdateSounds;
+        GameData.OnGameStateChange += UpdateStateSounds;
+        GameData.OnScrollSpeedChange += UpdateSpeedSounds;
     }
 
     void OnDisable()
     {
-        GameData.OnGameStateChange -= UpdateSounds;
+        GameData.OnGameStateChange -= UpdateStateSounds;
+        GameData.OnScrollSpeedChange -= UpdateSpeedSounds;
     }
 
-    void UpdateSounds(GameState newGameState)
+    void UpdateStateSounds(GameState newGameState)
     {
         switch (newGameState) {
             case GameState.Paused:
@@ -35,5 +44,11 @@ public class SoundManager : MonoBehaviour
                 _collisionSoundSource.Play();
                 break;
         }
+    }
+
+    void UpdateSpeedSounds(float newScrollSpeed)
+    {
+        _rollingSoundSource.pitch = _initialPitch +
+                ((newScrollSpeed - 10.0F) / 50.0F);
     }
 }

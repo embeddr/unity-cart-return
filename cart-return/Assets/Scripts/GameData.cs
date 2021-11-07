@@ -17,6 +17,9 @@ public static class GameData
     public delegate void FrontCartChangeHandler(GameObject newFrontCart);
     public static event FrontCartChangeHandler OnFrontCartChange;
 
+    public delegate void ScrollSpeedChangeHandler(float newScrollSpeed);
+    public static event ScrollSpeedChangeHandler OnScrollSpeedChange;
+
     ///////////////////////////////////////////////////////////////////////////
     // Game data properties
     ///////////////////////////////////////////////////////////////////////////
@@ -32,7 +35,14 @@ public static class GameData
     private static GameState _gameState;
 
     // Horizontal world scroll speed
-    public static float ScrollSpeed { get; set; }
+    public static float ScrollSpeed {
+        get { return _scrollSpeed; } 
+        set {
+            OnScrollSpeedChange?.Invoke(value);
+            _scrollSpeed = value;
+        } 
+    }
+    private static float _scrollSpeed;
 
     // Number of nudges available to the player
     public static uint Nudges { get; set; }

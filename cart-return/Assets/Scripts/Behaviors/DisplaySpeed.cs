@@ -1,10 +1,10 @@
-// Magnetism time display behavior
+// Scroll speed display behavior
 
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
-public class DisplayMagnetism : MonoBehaviour
+public class DisplaySpeed : MonoBehaviour
 {
     private Text _text;
 
@@ -15,7 +15,6 @@ public class DisplayMagnetism : MonoBehaviour
 
     void Update()
     {
-        
-        _text.text = string.Format("Magnetism: {0:0.00}", GameData.MagnetismTime);
+        _text.text = string.Format("Speed: {0:0.0}", GameData.ScrollSpeed);
     }
 }

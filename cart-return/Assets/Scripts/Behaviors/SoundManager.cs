@@ -59,11 +59,14 @@ public class SoundManager : MonoBehaviour
     {
         // Simple approach to increase pitch according to speed
         _rollingSoundSource.pitch = _initialPitch +
-                ((newScrollSpeed - 10.0F) / 50.0F);
+                ((newScrollSpeed - 10.0F) / 25.0F);
+        _stackedRollingSoundSource.pitch = _initialPitch +
+                ((newScrollSpeed - 10.0F) / 25.0F);
     }
 
     void UpdateStackSounds(uint newStackSize)
     {
-        _stackedRollingSoundSource.volume = GameData.StackSize * 0.02F;
+        // Incrtacked rolling cart sound as stack size grows
+        _stackedRollingSoundSource.volume = newStackSize * 0.04F;
     }
 }

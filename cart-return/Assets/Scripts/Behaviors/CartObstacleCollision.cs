@@ -17,15 +17,17 @@ public class CartObstacleCollision : MonoBehaviour
     public static event CollisionHandler OnCollision;
 
     void OnCollisionEnter2D(Collision2D collision) {
-        // Check for collision with obstacle
-        if (collision.gameObject.CompareTag(Tags.Obstacle.ToString())) {
-            Debug.Log("Cart-obstacle collision!");
+        if (GameData.State == GameState.InGame) {
+            // Check for collision with obstacle
+            if (collision.gameObject.CompareTag(Tags.Obstacle.ToString())) {
+                Debug.Log("Cart-obstacle collision!");
 
-            // Move state to game over
-            GameData.State = GameState.GameOver;
+                // Move state to game over
+                GameData.State = GameState.GameOver;
 
-            // Fire a collision event for other behavior updates
-            OnCollision?.Invoke();
+                // Fire a collision event for other behavior updates
+                OnCollision?.Invoke();
+            }
         }
     }
 }

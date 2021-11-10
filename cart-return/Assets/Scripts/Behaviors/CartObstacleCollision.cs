@@ -16,7 +16,8 @@ public class CartObstacleCollision : MonoBehaviour
     public delegate void CollisionHandler();
     public static event CollisionHandler OnCollision;
 
-    void OnCollisionEnter2D(Collision2D collision) {
+    void OnCollisionEnter2D(Collision2D collision)
+    {
         if (GameData.State == GameState.InGame) {
             // Check for collision with obstacle
             if (collision.gameObject.CompareTag(Tags.Obstacle.ToString())) {

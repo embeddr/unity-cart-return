@@ -62,17 +62,17 @@ public class CartMagnetism : MonoBehaviour
 
     void OnEnable()
     {
-        _magnetismAction.started += ToggleMagnetism;
+        _magnetismAction.started += ToggleMagnetismRequest;
         CartObstacleCollision.OnCollision += DisableMagnetism;
     }
 
     void OnDisable()
     {
-        _magnetismAction.started -= ToggleMagnetism;
+        _magnetismAction.started -= ToggleMagnetismRequest;
         CartObstacleCollision.OnCollision -= DisableMagnetism;
     }
 
-    void ToggleMagnetism(InputAction.CallbackContext context)
+    void ToggleMagnetismRequest(InputAction.CallbackContext context)
     {
         _magnetismRequested = !_magnetismRequested;
     }
@@ -119,6 +119,7 @@ public class CartMagnetism : MonoBehaviour
                 // Transition to inactive if spin-down time or magnetism time reach zero
                 _magnetismSpindownTime -= Time.fixedDeltaTime;
                 if ((_magnetismSpindownTime <= 0.0F) || (GameData.MagnetismTime <= 0.0F)) {
+                    _magnetismRequested = false;
                     _magnetismState = MagnetismState.Inactive;
                 } else if (_magnetismRequested) {
                     // Otherwise, transition back to active if requested

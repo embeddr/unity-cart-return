@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 659287285}
   - component: {fileID: 659287286}
+  - component: {fileID: 659287292}
   - component: {fileID: 659287288}
   - component: {fileID: 659287287}
   - component: {fileID: 659287289}
@@ -353,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnEnabled: 1
   _object: {fileID: 8569980348151547007, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}
-  _spawnInterval: 1
+  _spawnInterval: 2
   _spawnDelay: 1.5
   _spawnMin: 1
   _spawnMax: 1
@@ -445,6 +446,24 @@ MonoBehaviour:
   _object: {fileID: 6923630858187645057, guid: a5051ac64001bb4d097d199f13f23efc, type: 3}
   _spawnInterval: 6
   _spawnDelay: 4
+  _spawnMin: 1
+  _spawnMax: 1
+--- !u!114 &659287292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659287284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ef539d286f23049f71c9e23cd0ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEnabled: 1
+  _object: {fileID: 9052093768466841522, guid: 76786e1dbe585c7b0a2bfef6d3aabbea, type: 3}
+  _spawnInterval: 2
+  _spawnDelay: 2.5
   _spawnMin: 1
   _spawnMax: 1
 --- !u!1 &767812863 stripped
@@ -1857,7 +1876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8569980348151547007, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}
       propertyPath: m_Name
-      value: ParkedVehicle
+      value: ParkedCarBlue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1c1e67a1fd33b97d89cb1d01957e71f, type: 3}

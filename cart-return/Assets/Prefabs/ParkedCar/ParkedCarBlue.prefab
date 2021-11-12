@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2706924775601686668}
   - component: {fileID: 8569980348151546979}
   m_Layer: 7
-  m_Name: ParkedVehicle
+  m_Name: ParkedCarBlue
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

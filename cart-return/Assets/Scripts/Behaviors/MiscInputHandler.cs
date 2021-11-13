@@ -13,6 +13,14 @@ public class MiscInputHandler : MonoBehaviour
     [SerializeField]
     private PlayerInput _playerInput;
 
+    [Tooltip("Pause audio source")]
+    [SerializeField]
+    private AudioSource _pauseAudio;
+
+    [Tooltip("Unpause audio source")]
+    [SerializeField]
+    private AudioSource _unpauseAudio;
+
     private InputAction _pauseAction;
     private InputAction _unpauseAction;
     private InputAction _restartAction;
@@ -44,9 +52,11 @@ public class MiscInputHandler : MonoBehaviour
     {
         // Handling pausing/unpausing by adjusting time scale
         if (_pauseAction.triggered) {
+            _pauseAudio.Play();
             GameData.State = GameState.Paused;
             Time.timeScale = 0;
         } else if (_unpauseAction.triggered) {
+            _unpauseAudio.Play();
             GameData.State = GameState.InGame;
             Time.timeScale = 1;
         }

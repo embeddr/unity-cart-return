@@ -4,8 +4,6 @@
 // provided prefab off the screen to serve as obstacles for the player. This will
 // be superseded by a more structured procedural approach in the near future.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnObject : MonoBehaviour

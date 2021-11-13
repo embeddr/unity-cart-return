@@ -62,19 +62,26 @@ public class CartMagnetism : MonoBehaviour
 
     void OnEnable()
     {
-        _magnetismAction.started += ToggleMagnetismRequest;
+        _magnetismAction.started += RequestMagnetismOn;
+        _magnetismAction.canceled += RequestMagnetismOff;
         CartObstacleCollision.OnCollision += DisableMagnetism;
     }
 
     void OnDisable()
     {
-        _magnetismAction.started -= ToggleMagnetismRequest;
+        _magnetismAction.started -= RequestMagnetismOn;
+        _magnetismAction.canceled -= RequestMagnetismOff;
         CartObstacleCollision.OnCollision -= DisableMagnetism;
     }
 
-    void ToggleMagnetismRequest(InputAction.CallbackContext context)
+    void RequestMagnetismOn(InputAction.CallbackContext context)
     {
-        _magnetismRequested = !_magnetismRequested;
+        _magnetismRequested = true;
+    }
+
+    void RequestMagnetismOff(InputAction.CallbackContext context)
+    {
+        _magnetismRequested = false;
     }
 
     void DisableMagnetism()

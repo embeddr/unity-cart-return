@@ -4,7 +4,6 @@
 // asset, as well as any other data required from the scene itself.
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InitializeGameData : MonoBehaviour
 {

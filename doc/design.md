@@ -1,13 +1,13 @@
 # Game Design Document
 ## Summary
-Minimum wage is a simple, 2D endless-runner in which the player must collect and return shopping carts from a parking lot while avoiding collisions with obstacles such as cars and pedestrians. Points are awarded to the player continuously over time. Speed increases as the round progresses, making it increasingly difficult to avoid obstacles, but the player can increase his/her chances of success by returning carts of various color combinations, providing the player with various benefits / power-ups.
+Minimum wage is a simple, 2D endless-runner in which the player must collect and return shopping carts from a parking lot while avoiding collisions with obstacles such as cars and pedestrians. Points are awarded to the player for successfully returning carts. Speed increases as the round progresses, making it increasingly difficult to avoid obstacles, but the player can increase his/her chances of success by returning carts of various color combinations, providing the player with various benefits / power-ups.
 
 ---
 
 ## Gameplay Overview
 ### Interface
 - **The game world is presented in a 2D, top-down fashion.**
-	- Tentatively intended to _not_ be isometric or angled such that fronts/sides of world objects are visible. This is mostly because this is a game about precise positioning, and an angled perspective introduces positional ambiguity.
+	- _Not_ isometric or angled such that fronts/sides of world objects are visible. This is mostly because this is a game about precise positioning, and an angled perspective introduces positional ambiguity.
 - **The player controls an endlessly-running character who is pushing a shopping cart through a parking lot.**
 	- The player character is always located on the far left side of the screen.
 	- The player character is always facing toward the right side of the scren.
@@ -18,48 +18,47 @@ Minimum wage is a simple, 2D endless-runner in which the player must collect and
 	- Input mechanism: Keyboard buttons, joystick, or directional pad.
 	- Horizontal position is locked.
 	- Rotation is locked.
-- **No other character control is afforded to the player.**
-	- However, the player can pause/restart the round with a configurable key/button.
+- **Various powerups can be enabled by pressing buttons on conjunction with joystick movement**
 
 ### Gameplay Loop
-- **The player's fundamental goal is to avoid colliding with in-world obstacles (such as cars and pedestrians) for as long as possible.**
-	- The gameplay world and positions of obstacles are procedurally generated based on a set of world tiles with spawn point metadata.
-- **The player starts each round with zero points, and accumulates points continuously over time.**
-	- Points are accumulated at a base rate times a multiplier
-	- Additional points are earned when returning carts
-- **The scroll speed of the world (i.e. the player character's forward movement speed) slowly increases over time.**
-	- Left unattended, the scroll speed quickly becomes insurmountably fast, and the player will unavoidably collide with an obstacle.
-- **To maximize points and mitigate the ever-increasing speed, the player must collect shopping carts scattered throughout the game world and return them to a designated corral.**
+- **The player must avoid colliding with obstacles (such as parked cars)**
+	- The round ends when the player hits an obstacle
+	- The current implementation provides a crude time-based obstacle spawning mechanism
+	- The envisioned implementation would procedurally generate the world and obstacles based on a set of tiles with spawn point metadata
+- **The player can collect shopping carts in a stack**
 	- Carts are collected by ramming them with the front cart in the player's stack.
 		- Carts are always oriented correctly to be picked up (facing right).
 	- The player's stack of carts becomes increasingly difficult to control as the number of stacked carts increases.
-		- To motivate the player to collect a larger stack, a multiplier is applies to the point accumulation rate based on the number of carts in the player's stack at a given time.
-	- Carts can be returned to a cart corral, which will appear periodicaly in the world.
-	- Shopping carts come in various colors, and each color has an effect that benefits the player when the cart is returned to the corral.
-		- See [Cart Color Effects](#cart-color-effects) for more details
+- **Points are awared when the player returns carts to a designated cart return corral**
+	- The player receives a baseline number of points per cart returned
+	- To encourage the player to build and return larger stacks of carts, a bonus multiplier is provided based on the size of the stack of carts being returned.
+- **The scroll speed of the world (i.e. the player character's forward movement speed) slowly increases over time.**
+	- Left unattended, the scroll speed becomes insurmountably fast, and the player will unavoidably collide with an obstacle.
+- **To provide a chance at survival given the ever-increasing speed, the player is afforded several unique abilities that are enabled by returning carts of specific colors**
+	- See [Cart Color Effects](#cart-color-effects) for more details
 
 ### Context
-- The player character is a minimum wage employee working at a store located in a suspiciously long strip mall.
-- The player character's job is to collect all of the shopping carts that customers have carelessly left strewn about the parking lot, and return them to a designated cart corral.
-- The player character must avoid colliding with obstacles such as cars and pedestrians, lest he/she be held liable for damages/injury.
-- Player score is money made on the job
-
+- The player character is a minimum wage employee with telekinetic powers, working at an ordinary  grocery store located in a suspiciously long strip mall.
+- The player character's job is to collect all of the shopping carts that customers have carelessly left strewn about the parking lot, and return them to designated cart corrals.
+- The player character must avoid colliding with obstacles, lest he/she be held liable for damages/injury.
 
 ---
 
 ## Mockup
 ![Mockup](mockup.png)
-- Add visual indicators for cart bonuses
+- Add visual indicators for powerups
     - Could be UI elements, _or_ could be more implicit:
       - Slowdown: Reduced movement speed should be obvious
       - Magnetism: Front cart glows red, nearby carts also glow
       - Nudge: Add green trailing lines behind carts when boosted up/down
+- Audio Effects for each ability will also help in the actual game
 
 ---
+
 ## Gameplay Details
-_Note: Exact mechanics and (especially) numerical values will likely change significantly as prototyping continues, so concepts are kept fairly general and qualitative for now._
+_Exact mechanics and (especially) numerical values will likely change significantly as prototyping continues, so concepts are kept fairly general and qualitative for now._
 ### Cart Color Effects
-Returning carts of a given color to the cart return corral results in a temporary benefit for the player. The goal here is to build and release tension, and to reward players for skill (and luck) in collecting carts.
+Returning carts of a given color to the cart return corral results in a temporary or consumable benefit for the player. The goal here is to build and release tension, and to reward players for skill (and luck) in collecting carts.
 
 - **Blue: Slow the scroll speed**
 	- Intention is to help counteract the endless scroll speed increase.
@@ -69,25 +68,14 @@ Returning carts of a given color to the cart return corral results in a temporar
 	- Intention is simply to make it easier to pick up carts as speed increases.
 	- Magnetic effect should require line-of-sight between the two carts.
 	- Also should probably only apply to the free cart, not the player's stack.
-- **Green: Nudge/Boost carts**
+- **Green: Slide carts**
     - Intention is to give the player a consumable up/down boost that applies to the entire stack of players carts in order to allow escaping challenging scenarios or reach a cart or return corral that would otherwise be too far.
 
 **How do these effects play out over time?**
-- Each green cart provides one nudge consumable.
-- Each red cart provides two seconds of magnetism, also consumable.
-	- TBD if this will burn out the entire accumulated duration, or just two seconds.
+- Each green cart provides one slide consumable.
+- Each red cart provides two seconds of magnetism, which is enabled manually by holding a button
 - Each blue cart immediately slows the scroll speed down when returned.
 	
-### Cart Color Combos
-- In general, turning in more carts should increase the benefit to the player
-- To encourage more selective cart colleciton, collecting carts of the same color consecutively may award a X% bonus relative to collecting the same carts in mixed order.
-	- Having second thoughts on this - I don't know that this complexity brings much value.
-
-### Point Collection
-- Points are collected at a base rate of 10 points per second times a multiplier (default 1.0)
-- Each extra cart the player has in his/her stack awards a X% multiplier increase
-- Returning carts provides bulk bonus points
-
 ---
 
 ## Procedural Generation
@@ -105,7 +93,7 @@ Returning carts of a given color to the cart return corral results in a temporar
 ---
 
 ## Visual Design
-TODO
+- Due to lack of artistic talent in the cretor, the 
 
 ---
 

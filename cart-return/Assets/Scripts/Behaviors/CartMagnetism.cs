@@ -97,8 +97,12 @@ public class CartMagnetism : MonoBehaviour
         switch (_magnetismState) {
             case MagnetismState.Inactive:
                 // Transition to active if requested and time is available
-                if (_magnetismRequested && GameData.MagnetismTime > 0.0F) {
-                    _magnetismState = MagnetismState.Active;
+                if (_magnetismRequested) {
+                    if (GameData.MagnetismTime > 0.0F) {
+                        _magnetismState = MagnetismState.Active;
+                    } else {
+                        _magnetismRequested = false;
+                    }
                 }
                 break;
             case MagnetismState.Active:

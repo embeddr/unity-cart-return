@@ -52,7 +52,8 @@ public class CartNudge : MonoBehaviour
             float direction = _upDownAction.ReadValue<float>();
             float sign = Math.Sign(direction); // note: Math, not Mathf!
             if (sign != 0) {
-                var force = new Vector3(0, sign * _impulseForce, 0);
+                // TODO: scale force according to mass?
+                var force = Vector3.up * sign * _impulseForce;
                 _rb2d.AddForce(force, ForceMode2D.Impulse);
                 GameData.Nudges--;
             }

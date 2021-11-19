@@ -2026,6 +2026,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3431670561355996019, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: _forceMult
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 6818558847886025223, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_Name
       value: PlayerCart

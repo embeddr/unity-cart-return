@@ -1,8 +1,8 @@
 // Cart magnetism behavior
 //
 // Implements a simple magnetism behavior that attracts any free carts within the specified
-// radius toward this objects y coordinate. Does not impact horizontal position or model any
-// sort of realistic magnetic effect.
+// radius toward the front cart's vertical position. Does not impact horizontal position or
+// attempt ot model any sort of realistic magnetic effect.
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +13,18 @@ public class CartMagnetism : MonoBehaviour
 
     [Tooltip("Radius of magnetic effect")]
     private float _radius = 3.0F;
+
+    [Tooltip("Magnetism force multiplier")]
+    [SerializeField]
+    private float _forceMult = 100.0F;
+
+    [Tooltip("Minimum derivative coefficient (applied at max range)")]
+    [SerializeField]
+    private float _kDMin = 0.0F;
+
+    [Tooltip("Maximum derivative coefficient (applied at min range)")]
+    [SerializeField]
+    private float _kDMax = 0.25F;
 
     [Tooltip("Audio source for magnetism sound effect")]
     [SerializeField]
@@ -86,7 +98,7 @@ public class CartMagnetism : MonoBehaviour
 
     void DisableMagnetism()
     {
-        _magnetismRequested = false;
+        _magnetismState = MagnetismState.Inactive;
     }
 
     void FixedUpdate()
@@ -97,6 +109,7 @@ public class CartMagnetism : MonoBehaviour
             // Clamp at zero
             if (GameData.MagnetismTime < 0.0F) {
                 GameData.MagnetismTime = 0.0F;
+                // TODO: Play sound to indicate out of time
             }
         }
 
@@ -120,8 +133,7 @@ public class CartMagnetism : MonoBehaviour
                 }
 
                 // Transition to inactive if no magnetism time remaining
-                if (GameData.MagnetismTime <= 0.0F) {
-                    GameData.MagnetismTime = 0.0F;
+                if (GameData.MagnetismTime == 0.0F) {
                     _magnetismRequested = false;
                     _magnetismState = MagnetismState.Inactive;
                 }
@@ -153,10 +165,10 @@ public class CartMagnetism : MonoBehaviour
             }
 
             // Project circle ahead of front cart, find all overlapping colliders
-            Vector2 pos = new Vector2(GameData.FrontCart.transform.position.x + _radius,
-                                      GameData.FrontCart.transform.position.y);
+            Vector3 frontCartPos = GameData.FrontCart.transform.position;
+            Vector2 pos = new Vector2(frontCartPos.x + _radius, frontCartPos.y);
             ContactFilter2D filter = new ContactFilter2D();
-            filter.SetLayerMask(LayerMask.GetMask("Obstacle"));
+            filter.SetLayerMask(LayerMask.GetMask("Obstacle")); // TODO: New layer for carts?
             int numColliders = Physics2D.OverlapCircle(pos,
                                                        _radius,
                                                        filter,
@@ -165,11 +177,18 @@ public class CartMagnetism : MonoBehaviour
             // Apply magnetism effect to vertically align free carts with front cart in stack
             for (int i = 0; i < numColliders; i++) {
                 if (_colliders[i].CompareTag("FreeCart")) {
-                    // TODO: check for clear LOS from object to target y coord?
                     Rigidbody2D rb2d = _colliders[i].gameObject.GetComponent<Rigidbody2D>();
-                    // TODO: This is a great place for a PID!
-                    float error = transform.position.y - _colliders[i].transform.position.y;
-                    float force = error * 100.0F; // TODO: tune coefficient
+                    PID pid = _colliders[i].gameObject.GetComponent<PID>();
+
+                    // TODO: check for clear LOS from object to target y coord?
+
+                    // PID gain scheduling
+                    float x_distance = _colliders[i].transform.position.x - frontCartPos.x;
+                    pid.kD = Mathf.Lerp(_kDMax, _kDMin, x_distance / (2.0F * _radius));
+
+                    // PID update
+                    float error = frontCartPos.y - _colliders[i].transform.position.y;
+                    float force = pid.updateError(error, Time.fixedDeltaTime) * _forceMult;
                     rb2d.AddForce(Vector2.up * force);
                 }
             }
@@ -178,7 +197,8 @@ public class CartMagnetism : MonoBehaviour
             if (_magnetismState == MagnetismState.Spindown) {
                 // Reduce pitch so that we reach the starting pitch at the end of spin-down
                 float timeRatio = (Time.fixedDeltaTime / _magnetismSpindownTime);
-                _magnetismSoundSource.pitch -= timeRatio * (_magnetismSoundSource.pitch - _magnetismPitchStart);
+                _magnetismSoundSource.pitch -= timeRatio * 
+                        (_magnetismSoundSource.pitch - _magnetismPitchStart);
 
                 // Clamp at start pitch
                 if (_magnetismSoundSource.pitch < _magnetismPitchStart) {

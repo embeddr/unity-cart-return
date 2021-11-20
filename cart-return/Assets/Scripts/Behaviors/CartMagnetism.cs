@@ -26,9 +26,13 @@ public class CartMagnetism : MonoBehaviour
     [SerializeField]
     private float _kDMax = 0.25F;
 
-    [Tooltip("Audio source for magnetism sound effect")]
+    [Tooltip("Audio source for magnetism active sound effect")]
     [SerializeField]
-    private AudioSource _magnetismSoundSource;
+    private AudioSource _magnetismActiveSound;
+
+    [Tooltip("Audio source for magnetism error sound effect")]
+    [SerializeField]
+    private AudioSource _magnetismErrorSound;
 
     [Tooltip("Required magnetism spin-down time in seconds")]
     [SerializeField]
@@ -69,7 +73,7 @@ public class CartMagnetism : MonoBehaviour
         }
 
         _magnetismAction = playerInput.actions["InGame/Magnetism"];
-        _magnetismPitchTarget = _magnetismSoundSource.pitch;
+        _magnetismPitchTarget = _magnetismActiveSound.pitch;
     }
 
     void OnEnable()
@@ -101,6 +105,12 @@ public class CartMagnetism : MonoBehaviour
         _magnetismState = MagnetismState.Inactive;
     }
 
+    void RejectRequest()
+    {
+        _magnetismRequested = false;
+        _magnetismErrorSound.Play();
+    }
+
     void FixedUpdate()
     {
         // Decrement magnetism time if active
@@ -121,7 +131,7 @@ public class CartMagnetism : MonoBehaviour
                     if (GameData.MagnetismTime > 0.0F) {
                         _magnetismState = MagnetismState.Active;
                     } else {
-                        _magnetismRequested = false;
+                        RejectRequest();
                     }
                 }
                 break;
@@ -134,80 +144,92 @@ public class CartMagnetism : MonoBehaviour
 
                 // Transition to inactive if no magnetism time remaining
                 if (GameData.MagnetismTime == 0.0F) {
-                    _magnetismRequested = false;
-                    _magnetismState = MagnetismState.Inactive;
+                    RejectRequest();
+                    _magnetismState = MagnetismState.Spindown;
                 }
                 break;
             case MagnetismState.Spindown:
-                // Transition to inactive if spin-down time or magnetism time reach zero
+                // Transition to inactive if spin-down reaches zero
                 _magnetismSpindownTime -= Time.fixedDeltaTime;
-                if ((_magnetismSpindownTime <= 0.0F) || (GameData.MagnetismTime <= 0.0F)) {
-                    _magnetismRequested = false;
+                if (_magnetismSpindownTime <= 0.0F) {
                     _magnetismState = MagnetismState.Inactive;
                 } else if (_magnetismRequested) {
-                    // Otherwise, transition back to active if requested
-                    _magnetismState = MagnetismState.Active;
+                    // Re-enable if time is available
+                    if (GameData.MagnetismTime > 0.0F) {
+                        _magnetismState = MagnetismState.Active;
+                    } else {
+                        RejectRequest();
+                    }
                 }
                 break;
         }
 
-        // Apply magnetism effect
-        if (_magnetismState != MagnetismState.Inactive) {
-            // Play base sound while magnetism is enabled
-            if (!_magnetismSoundSource.isPlaying) {
-                _magnetismSoundSource.pitch = _magnetismPitchStart;
-                _magnetismSoundSource.Play();
-            }
+        // Apply magnetism effect according t ostate
+        switch (_magnetismState) {
+            case MagnetismState.Inactive:
 
-            // Pitch up when first enabled
-            if (_magnetismSoundSource.pitch < _magnetismPitchTarget) {
-                _magnetismSoundSource.pitch += 0.1F;
-            }
+                // Stop base sound
+                _magnetismActiveSound.Stop();
+                break;
 
-            // Project circle ahead of front cart, find all overlapping colliders
-            Vector3 frontCartPos = GameData.FrontCart.transform.position;
-            Vector2 pos = new Vector2(frontCartPos.x + _radius, frontCartPos.y);
-            ContactFilter2D filter = new ContactFilter2D();
-            filter.SetLayerMask(LayerMask.GetMask("Obstacle")); // TODO: New layer for carts?
-            int numColliders = Physics2D.OverlapCircle(pos,
-                                                       _radius,
-                                                       filter,
-                                                       _colliders);
+            case MagnetismState.Active:
 
-            // Apply magnetism effect to vertically align free carts with front cart in stack
-            for (int i = 0; i < numColliders; i++) {
-                if (_colliders[i].CompareTag("FreeCart")) {
-                    Rigidbody2D rb2d = _colliders[i].gameObject.GetComponent<Rigidbody2D>();
-                    PID pid = _colliders[i].gameObject.GetComponent<PID>();
-
-                    // TODO: check for clear LOS from object to target y coord?
-
-                    // PID gain scheduling
-                    float x_distance = _colliders[i].transform.position.x - frontCartPos.x;
-                    pid.kD = Mathf.Lerp(_kDMax, _kDMin, x_distance / (2.0F * _radius));
-
-                    // PID update
-                    float error = frontCartPos.y - _colliders[i].transform.position.y;
-                    float force = pid.updateError(error, Time.fixedDeltaTime) * _forceMult;
-                    rb2d.AddForce(Vector2.up * force);
+                // Play base sound while magnetism is enabled
+                if (!_magnetismActiveSound.isPlaying) {
+                    _magnetismActiveSound.pitch = _magnetismPitchStart;
+                    _magnetismActiveSound.Play();
                 }
-            }
 
-            // Spin down sound
-            if (_magnetismState == MagnetismState.Spindown) {
-                // Reduce pitch so that we reach the starting pitch at the end of spin-down
-                float timeRatio = (Time.fixedDeltaTime / _magnetismSpindownTime);
-                _magnetismSoundSource.pitch -= timeRatio * 
-                        (_magnetismSoundSource.pitch - _magnetismPitchStart);
-
-                // Clamp at start pitch
-                if (_magnetismSoundSource.pitch < _magnetismPitchStart) {
-                    _magnetismSoundSource.pitch = _magnetismPitchStart;
+                // Pitch up when first enabled
+                if (_magnetismActiveSound.pitch < _magnetismPitchTarget) {
+                    _magnetismActiveSound.pitch += 0.1F;
                 }
-            }
-        } else {
-            // Stop base sound
-            _magnetismSoundSource.Stop();
+
+                // Project circle ahead of front cart, find all overlapping colliders
+                Vector3 frontCartPos = GameData.FrontCart.transform.position;
+                Vector2 pos = new Vector2(frontCartPos.x + _radius, frontCartPos.y);
+                ContactFilter2D filter = new ContactFilter2D();
+                filter.SetLayerMask(LayerMask.GetMask("Obstacle")); // TODO: New layer for carts?
+                int numColliders = Physics2D.OverlapCircle(pos,
+                                                        _radius,
+                                                        filter,
+                                                        _colliders);
+
+                // Apply magnetism effect to vertically align free carts with front cart in stack
+                for (int i = 0; i < numColliders; i++) {
+                    if (_colliders[i].CompareTag("FreeCart")) {
+                        Rigidbody2D rb2d = _colliders[i].gameObject.GetComponent<Rigidbody2D>();
+                        PID pid = _colliders[i].gameObject.GetComponent<PID>();
+
+                        // TODO: check for clear LOS from object to target y coord?
+
+                        // PID gain scheduling
+                        float x_distance = _colliders[i].transform.position.x - frontCartPos.x;
+                        pid.kD = Mathf.Lerp(_kDMax, _kDMin, x_distance / (2.0F * _radius));
+
+                        // PID update
+                        float error = frontCartPos.y - _colliders[i].transform.position.y;
+                        float force = pid.updateError(error, Time.fixedDeltaTime) * _forceMult;
+                        rb2d.AddForce(Vector2.up * force);
+                    }
+                }
+                break;
+
+            case MagnetismState.Spindown:
+
+                // Spin down sound
+                if (_magnetismState == MagnetismState.Spindown) {
+                    // Reduce pitch so that we reach the starting pitch at the end of spin-down
+                    float timeRatio = (Time.fixedDeltaTime / _magnetismSpindownTime);
+                    _magnetismActiveSound.pitch -= timeRatio * 
+                            (_magnetismActiveSound.pitch - _magnetismPitchStart);
+
+                    // Clamp at start pitch
+                    if (_magnetismActiveSound.pitch < _magnetismPitchStart) {
+                        _magnetismActiveSound.pitch = _magnetismPitchStart;
+                    }
+                }
+                break;
         }
     }
 }

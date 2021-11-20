@@ -4,35 +4,55 @@
 // the current (cart) object and a free cart object. On collision, destroys the free cart object
 // and creates a new stacked cart in its place, extending the player's cart chain.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpringJoint2D))]
 public class CartStacking : MonoBehaviour
 {
+    [Tooltip("Cart GameObject behind this cart (if any)")]
+    public GameObject backCart;
+
+    [Tooltip("Cart GameObject in front of this cart (if any)")]
+    public GameObject forwardCart;
+
+    [Tooltip("Audio source for cart sliding sound")]
+    [SerializeField]
+    private AudioSource _slidingSoundSource;
+
+    [Tooltip("Scale factor for cart rotation")]
+    [SerializeField]
+    private float _rotationScale = 0.25F;
+
+    // Required components
+    private SpringJoint2D _joint;
+    private Rigidbody2D _rb2d;
+
     // Count for number of stacked carts that have been created
     private static int _stackCount = 0;
     
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
 
-    [Tooltip("Audio source for cart sliding sound")]
-    [SerializeField]
-    private AudioSource _slidingSoundSource;
+    void Awake()
+    {
+        _joint = GetComponent<SpringJoint2D>();
+        _rb2d = GetComponent<Rigidbody2D>();
+    }
 
     void OnTriggerEnter2D(Collider2D other) 
     {
-        bool isFrontCart = (GameData.FrontCart == gameObject);
         // Check for trigger between front stacked cart and free cart 
+        bool isFrontCart = (GameData.FrontCart == gameObject);
         if (isFrontCart && (other.gameObject.CompareTag(Tags.FreeCart.ToString()))) {
             // Use free cart's previous vertical position, but use a fixed offset from the
-            // current cart's horizontal position so that the stack is consistently spaced.
+            // current cart's horizontal position so that the stack is consistently spaced
             var freeCart = other.gameObject;
             float cartY = freeCart.transform.position.y;
             float cartX = transform.position.x + 0.5F;
 
+            // Get new cart type from free cart's object container
             GameObject stackedCartObject = freeCart.GetComponent<ObjectContainer>()?.Object;
             if (!stackedCartObject) {
                 Utils.ExitGame("Collided free cart holds no ObjectContainer (or object is unset)");
@@ -40,24 +60,21 @@ public class CartStacking : MonoBehaviour
 
             // Destroy free cart and instantiate stacked cart in its place
             Destroy(freeCart);
-            var stackedCart = Instantiate(stackedCartObject,
-                                          new Vector2(cartX, cartY),
-                                          stackedCartObject.transform.rotation,
-                                          transform);
+            forwardCart = Instantiate(stackedCartObject,
+                                      new Vector2(cartX, cartY),
+                                      stackedCartObject.transform.rotation);
 
-            // Attach spring joint of new stacked cart to this cart
-            SpringJoint2D joint = stackedCart.GetComponent<SpringJoint2D>();
-            if (!joint) {
-                Utils.ExitGame("Attempting to stack a GameObject with no spring joint component");
-            }
-            joint.connectedBody = GetComponent<Rigidbody2D>();
-            stackedCart.name = stackedCartObject.name + (_stackCount++).ToString();
+            // Attach spring joint to the new cart
+            _joint.enabled = true;
+            _joint.connectedBody = forwardCart.GetComponent<Rigidbody2D>();
 
-            // Set new stacked cart's sorting order to appear on top 
-            stackedCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
+            // Initialize various variables for the new stacked cart
+            forwardCart.name = stackedCartObject.name + (_stackCount++).ToString();
+            forwardCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
+            forwardCart.GetComponent<CartStacking>().backCart = gameObject;
 
             // Update relevant game data
-            GameData.FrontCart = stackedCart;
+            GameData.FrontCart = forwardCart;
             GameData.StackSize++;
         }
     }
@@ -104,6 +121,17 @@ public class CartStacking : MonoBehaviour
         // Reset collision timer on exit
         if (collision.gameObject.CompareTag(Tags.FreeCart.ToString())) {
             _collisionTime = 0.0F;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        // Adjust cart rotation according to position relative to back cart
+        if (backCart) {
+            var deltaX = transform.position.x - backCart.transform.position.x;
+            var deltaY = transform.position.y - backCart.transform.position.y;
+            var angle_rad = Mathf.Atan2(deltaY, deltaX) * _rotationScale;
+            transform.eulerAngles = new Vector3(0.0F, 0.0F, (Mathf.Rad2Deg * angle_rad));
         }
     }
 }

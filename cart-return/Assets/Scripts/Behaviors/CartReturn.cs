@@ -2,12 +2,11 @@
 //
 // Provides functionality for returning a cart of a given type to the cart return corral.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CartStacking))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class CartReturn : MonoBehaviour
 {
     public enum CartType {
@@ -20,6 +19,14 @@ public class CartReturn : MonoBehaviour
     [Tooltip("The cart type/color, which determines its return bonus")]
     [SerializeField]
     private CartType _cartType = CartType.Normal;
+
+    // Required components
+    private CartStacking _cartStacking;
+
+    void Awake()
+    {
+        _cartStacking = GetComponent<CartStacking>();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -49,13 +56,29 @@ public class CartReturn : MonoBehaviour
                         break;
                 }
 
-                // Parent cart is now the front
-                GameData.FrontCart = transform.parent.gameObject;
+                // Cart behind this one is now the front
+                GameData.FrontCart = _cartStacking.backCart;
+                _cartStacking.backCart.GetComponent<CartStacking>().forwardCart = null;
+                var cartBackSpring = _cartStacking.backCart.GetComponent<SpringJoint2D>();
+                cartBackSpring.connectedBody = null;
+                cartBackSpring.enabled = false;
 
-                // Decrement stack size and destroy object
-                GameData.StackSize--;
-                Destroy(gameObject);
+                // Destroy this cart and any carts in front
+                var numCarts = deleteForwardCarts(gameObject);
+                GameData.StackSize -= numCarts;
             }
+        }
+    }
+
+    uint deleteForwardCarts(GameObject forwardCart)
+    {
+        Destroy(forwardCart.gameObject);
+
+        var nextCart = forwardCart.GetComponent<CartStacking>().forwardCart;
+        if (nextCart) {
+            return deleteForwardCarts(nextCart) + 1;
+        } else {
+            return 1;
         }
     }
 }

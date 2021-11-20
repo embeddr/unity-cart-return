@@ -2427,10 +2427,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6818558847886025242, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_Constraints
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7499002843497565796, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: _playerInput
       value: 
       objectReference: {fileID: 1692721325}
+    - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_Distance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_Frequency
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_DampingRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_AutoConfigureDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8734672729255263346, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.1

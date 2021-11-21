@@ -46,13 +46,14 @@ public class CartDash : MonoBehaviour
         _nudgeAction.started -= RequestDash;
     }
 
-    // FIXME: Coroutines are ticked by Update(), not FixedUpdate
-    //        Consider moving this logi
     IEnumerator Dash(GameObject cart, float targetY)
     {
         // Cache rigidbody for duration of coroutine
         var rb2d = cart.GetComponent<Rigidbody2D>();
         var newPos = new Vector3();
+
+        // Yield for fixed update
+        yield return new WaitForFixedUpdate();
 
         float coroutineTime = 0.0F;
         while (coroutineTime < _dashDuration) {
@@ -62,14 +63,14 @@ public class CartDash : MonoBehaviour
 
             // Calculate and apply vertical delta
             float deltaY = (targetY - cart.transform.position.y) * 
-                    (Time.deltaTime / _dashDuration) * shapeFactor;
+                    (Time.fixedDeltaTime / _dashDuration) * shapeFactor;
             newPos = cart.transform.position;
             newPos.y += deltaY;
             rb2d.MovePosition(newPos);
 
-            // Increment time and yield to continue coroutine
+            // Increment time and yield to continue in next FixedUpdate()
             coroutineTime += Time.deltaTime;
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         // Terminate coroutine

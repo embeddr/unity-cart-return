@@ -11,11 +11,11 @@ using UnityEngine;
 [RequireComponent(typeof(SpringJoint2D))]
 public class CartStacking : MonoBehaviour
 {
-    [Tooltip("Cart GameObject behind this cart (if any)")]
-    public GameObject backCart;
+    [Tooltip("CartStacking component for cart behind this cart (if any)")]
+    public CartStacking backCart;
 
-    [Tooltip("Cart GameObject in front of this cart (if any)")]
-    public GameObject forwardCart;
+    [Tooltip("CartStacking component for cart in front of this cart (if any)")]
+    public CartStacking forwardCart;
 
     [Tooltip("Audio source for cart sliding sound")]
     [SerializeField]
@@ -60,21 +60,22 @@ public class CartStacking : MonoBehaviour
 
             // Destroy free cart and instantiate stacked cart in its place
             Destroy(freeCart);
-            forwardCart = Instantiate(stackedCartObject,
+            var newCart = Instantiate(stackedCartObject,
                                       new Vector2(cartX, cartY),
                                       stackedCartObject.transform.rotation);
+            forwardCart = newCart.GetComponent<CartStacking>();
 
             // Attach spring joint to the new cart
             _joint.enabled = true;
-            _joint.connectedBody = forwardCart.GetComponent<Rigidbody2D>();
+            _joint.connectedBody = newCart.GetComponent<Rigidbody2D>();
 
             // Initialize various variables for the new stacked cart
-            forwardCart.name = stackedCartObject.name + (_stackCount++).ToString();
-            forwardCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
-            forwardCart.GetComponent<CartStacking>().backCart = gameObject;
+            newCart.name = stackedCartObject.name + (_stackCount++).ToString();
+            newCart.GetComponent<SpriteRenderer>().sortingOrder = _stackCount;
+            newCart.GetComponent<CartStacking>().backCart = this;
 
             // Update relevant game data
-            GameData.FrontCart = forwardCart;
+            GameData.FrontCart = forwardCart.gameObject;
             GameData.StackSize++;
         }
     }

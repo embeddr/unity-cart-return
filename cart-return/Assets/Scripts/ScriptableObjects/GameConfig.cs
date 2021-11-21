@@ -12,8 +12,8 @@ public class GameConfig : ScriptableObject
     [Tooltip("Initial scroll speed")]
     public float scrollSpeed;
 
-    [Tooltip("Initial nudges available to player")]
-    public uint nudges;
+    [Tooltip("Initial dashes available to player")]
+    public uint dashes;
 
     [Tooltip("Initial magnetism time available to player")]
     public float magnetismTime;

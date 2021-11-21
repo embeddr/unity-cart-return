@@ -1510,6 +1510,7 @@ GameObject:
   - component: {fileID: 1681541991}
   - component: {fileID: 1681541990}
   - component: {fileID: 1681541989}
+  - component: {fileID: 1681541993}
   m_Layer: 0
   m_Name: Abilities
   m_TagString: Untagged
@@ -1742,6 +1743,20 @@ MonoBehaviour:
   _magnetismErrorSound: {fileID: 1681541989}
   _magnetismSpindownTimeRequired: 0.25
   _magnetismPitchStart: 0.1
+--- !u!114 &1681541993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681541987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc02cf8d81a81de5a1f15695da19150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dashDuration: 0.2
+  _dashDistance: 5
 --- !u!1 &1692721322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,7 +1836,7 @@ GameObject:
   - component: {fileID: 1720930186}
   - component: {fileID: 1720930185}
   m_Layer: 5
-  m_Name: NudgeText
+  m_Name: DashesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1855,7 +1870,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1720930183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15e3cd4f5139697aa904a9a273f5916c, type: 3}
+  m_Script: {fileID: 11500000, guid: 39e5dbd065752f67bb97eb550917d8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1720930186
@@ -1891,7 +1906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{NUDGES}
+  m_Text: '{DASHES}
 
 '
 --- !u!222 &1720930187
@@ -2367,18 +2382,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3431670561355996019, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: _forceMult
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 3431670561355996019, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: _magnetismErrorSound
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3431670561355996019, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: _magnetismActiveSound
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6818558847886025223, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_Name
       value: PlayerCart
@@ -2427,14 +2430,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6818558847886025242, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: m_Constraints
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7499002843497565796, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: _playerInput
       value: 
       objectReference: {fileID: 1692721325}
+    - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8639753793067524815, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_Distance
       value: 0.25
@@ -2451,74 +2454,8 @@ PrefabInstance:
       propertyPath: m_AutoConfigureDistance
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8734672729255263346, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734672729255263346, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3431670561355996019, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-    - {fileID: 767812864, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
---- !u!1 &6818558847077835978 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 371738573101485129, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
-  m_PrefabInstance: {fileID: 6818558847077835977}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &6818558847077835979
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6818558847077835978}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: f6685f4734b3555c69a3a672a509dafc, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.23529412}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1.6879122, y: 1.0285715}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1001 &8569980348507269329
 PrefabInstance:
   m_ObjectHideFlags: 0

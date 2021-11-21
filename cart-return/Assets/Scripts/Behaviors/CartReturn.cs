@@ -49,7 +49,7 @@ public class CartReturn : MonoBehaviour
                         break;
                     case CartType.Green:
                         // Green carts provide nudges
-                        GameData.Nudges++;
+                        GameData.Dashes++;
                         break;
                     default:
                         Utils.ExitGame("Returned invalid cart type: " + ((int)_cartType).ToString());
@@ -57,26 +57,25 @@ public class CartReturn : MonoBehaviour
                 }
 
                 // Cart behind this one is now the front
-                GameData.FrontCart = _cartStacking.backCart;
+                GameData.FrontCart = _cartStacking.backCart.gameObject;
                 _cartStacking.backCart.GetComponent<CartStacking>().forwardCart = null;
                 var cartBackSpring = _cartStacking.backCart.GetComponent<SpringJoint2D>();
                 cartBackSpring.connectedBody = null;
                 cartBackSpring.enabled = false;
 
                 // Destroy this cart and any carts in front
-                var numCarts = deleteForwardCarts(gameObject);
+                var numCarts = deleteForwardCarts(_cartStacking);
                 GameData.StackSize -= numCarts;
             }
         }
     }
 
-    uint deleteForwardCarts(GameObject forwardCart)
+    uint deleteForwardCarts(CartStacking cart)
     {
-        Destroy(forwardCart.gameObject);
+        Destroy(cart.gameObject);
 
-        var nextCart = forwardCart.GetComponent<CartStacking>().forwardCart;
-        if (nextCart) {
-            return deleteForwardCarts(nextCart) + 1;
+        if (cart.forwardCart) {
+            return deleteForwardCarts(cart.forwardCart) + 1;
         } else {
             return 1;
         }

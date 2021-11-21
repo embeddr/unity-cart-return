@@ -1,10 +1,10 @@
-// Nudge count display behavior
+// Dash count display behavior
 
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
-public class DisplayNudge : MonoBehaviour
+public class DisplayDashes : MonoBehaviour
 {
     private Text _text;
 
@@ -15,6 +15,6 @@ public class DisplayNudge : MonoBehaviour
 
     void Update()
     {
-        _text.text = string.Format("Nudges: {0}", GameData.Nudges);
+        _text.text = string.Format("Dashes: {0}", GameData.Dashes);
     }
 }

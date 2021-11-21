@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public static class GameData
 {
     ///////////////////////////////////////////////////////////////////////////
-    // Events to be invoked on game data property value change
+    // Events to be invoked on game data property update
     ///////////////////////////////////////////////////////////////////////////
 
     public delegate void GameStateChangeHandler(GameState newGameState);
@@ -16,6 +16,9 @@ public static class GameData
 
     public delegate void FrontCartChangeHandler(GameObject newFrontCart);
     public static event FrontCartChangeHandler OnFrontCartChange;
+
+    public delegate void BackCartChangeHandler(GameObject newBackCart);
+    public static event BackCartChangeHandler OnBackCartChange;
 
     public delegate void ScrollSpeedChangeHandler(float newScrollSpeed);
     public static event ScrollSpeedChangeHandler OnScrollSpeedChange;
@@ -47,8 +50,8 @@ public static class GameData
     }
     private static float _scrollSpeed;
 
-    // Number of nudges available to the player
-    public static uint Nudges { get; set; }
+    // Number of dashes available to the player
+    public static uint Dashes { get; set; }
 
     // Magnetism time available in seconds
     public static float MagnetismTime { get; set; }
@@ -62,6 +65,16 @@ public static class GameData
         }
     }
     private static GameObject _frontCart;
+
+    // Back cart object
+    public static GameObject BackCart {
+        get { return _backCart; }
+        set {
+            OnBackCartChange?.Invoke(value);
+            _backCart = value;
+        }
+    }
+    private static GameObject _backCart;
 
     // Cart stack size (not including the player)
     public static uint StackSize {
@@ -78,14 +91,18 @@ public static class GameData
     ///////////////////////////////////////////////////////////////////////////
 
     // Initialize the game data
-    public static void init(GameConfig config, GameObject frontCart, uint stackSize)
+    public static void init(GameConfig config,
+                            GameObject frontCart,
+                            GameObject backCart,
+                            uint stackSize)
     {
         State = config.state;
         ScrollSpeed = config.scrollSpeed;
-        Nudges = config.nudges;
+        Dashes = config.dashes;
         MagnetismTime = config.magnetismTime;
 
         FrontCart = frontCart;
+        BackCart = backCart;
         StackSize = stackSize;
     }
 }

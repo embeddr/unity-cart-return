@@ -16,6 +16,9 @@ public class InitializeGameData : MonoBehaviour
         // For now, assume only one player cart in stack
         GameObject playerCart = GameObject.FindGameObjectWithTag("Player");
         var stackSize = 1;
-        GameData.init(_gameConfig, playerCart, (uint)stackSize);
+        GameData.init(_gameConfig,
+                      playerCart,
+                      playerCart,
+                      (uint)stackSize);
     }
 }

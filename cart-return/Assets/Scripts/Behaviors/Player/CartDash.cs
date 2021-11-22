@@ -17,6 +17,10 @@ public class CartDash : MonoBehaviour
     [SerializeField]
     private float _dashDistance = 6.0F;
 
+    [Tooltip("Audio source for dash error sound effect")]
+    [SerializeField]
+    private AudioSource _dashErrorSound;
+
     private InputAction _nudgeAction;
     private InputAction _upDownAction;
 
@@ -57,6 +61,11 @@ public class CartDash : MonoBehaviour
 
         float coroutineTime = 0.0F;
         while (coroutineTime < _dashDuration) {
+            // If at any time the cart is destroyed (e.g. returend), terminate coroutine
+            if (!cart) {
+                yield break;
+            }
+
             // Calculate costine shape factor
             float shapeFactor = (Mathf.PI / 2.0F) * 
                     Mathf.Cos((coroutineTime / _dashDuration) * Mathf.PI / 2.0F);
@@ -79,24 +88,28 @@ public class CartDash : MonoBehaviour
 
     void RequestDash(InputAction.CallbackContext context)
     {
-        if ((GameData.Dashes > 0) && _debounceDone) {
-            // Apply fixed impulse to object to move it up or down based on the player's
-            // up/down input. If no up/down input is provided, then the nudge is ignored.
-            float direction = _upDownAction.ReadValue<float>();
-            float sign = Math.Sign(direction); // note: Math, not Mathf (zero behavior)
+        if (_debounceDone) {
+            if (GameData.Dashes > 0) {
+                // Apply fixed impulse to object to move it up or down based on the player's
+                // up/down input. If no up/down input is provided, then the nudge is ignored.
+                float direction = _upDownAction.ReadValue<float>();
+                float sign = Math.Sign(direction); // note: Math, not Mathf (zero behavior)
 
-            if (sign != 0) {
-                // Determine target position from back cart position
-                var targetY = GameData.BackCart.transform.position.y + (sign * _dashDistance);
+                if (sign != 0.0F) {
+                    // Determine target position from back cart position
+                    var targetY = GameData.BackCart.transform.position.y + (sign * _dashDistance);
 
-                // Start coroutine for each cart in stack
-                CartStacking cartIter = GameData.BackCart.GetComponent<CartStacking>();
-                while (cartIter) {
-                    StartCoroutine(Dash(cartIter.gameObject, targetY));
-                    cartIter = cartIter.forwardCart;
+                    // Start coroutine for each cart in stack
+                    CartStacking cartIter = GameData.BackCart.GetComponent<CartStacking>();
+                    while (cartIter) {
+                        StartCoroutine(Dash(cartIter.gameObject, targetY));
+                        cartIter = cartIter.forwardCart;
+                    }
+
+                    GameData.Dashes--;
                 }
-
-                GameData.Dashes--;
+            } else {
+                _dashErrorSound.Play();
             }
 
             // Init debouncing

@@ -50,6 +50,9 @@ TagManager:
   - name: FreeCart
     uniqueID: 3395160665
     locked: 0
+  - name: Corral
+    uniqueID: 3994715133
+    locked: 0
   - name: UI
     uniqueID: 3471123269
     locked: 0

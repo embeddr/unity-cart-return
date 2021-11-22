@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   scrollSpeed: 10
-  dashes: 5
-  magnetismTime: 5
+  dashes: 2
+  magnetismTime: 4

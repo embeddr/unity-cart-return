@@ -40,7 +40,7 @@ public class CartMagnetism : MonoBehaviour
 
     [Tooltip("Base sound effect start/stop pitch")]
     [SerializeField]
-    private float _magnetismPitchStart = 0.1F;
+    private float _magnetismPitchStart = 0.5F;
 
     // Whether or not magnetism has been requested by the player
     private bool _magnetismRequested = false;

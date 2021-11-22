@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 659287285}
   - component: {fileID: 659287286}
   - component: {fileID: 659287292}
+  - component: {fileID: 659287293}
   - component: {fileID: 659287288}
   - component: {fileID: 659287287}
   - component: {fileID: 659287289}
@@ -551,6 +552,24 @@ MonoBehaviour:
   _object: {fileID: 9052093768466841522, guid: 76786e1dbe585c7b0a2bfef6d3aabbea, type: 3}
   _spawnInterval: 2
   _spawnDelay: 2.5
+  _spawnMin: 1
+  _spawnMax: 1
+--- !u!114 &659287293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659287284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298ef539d286f23049f71c9e23cd0ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnEnabled: 1
+  _object: {fileID: 2453934130946048099, guid: 43583b9cd9c0e5d3193af528ffb0340d, type: 3}
+  _spawnInterval: 8
+  _spawnDelay: 4.5
   _spawnMin: 1
   _spawnMax: 1
 --- !u!1 &703894271
@@ -1507,9 +1526,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1681541988}
-  - component: {fileID: 1681541991}
   - component: {fileID: 1681541990}
   - component: {fileID: 1681541989}
+  - component: {fileID: 1681541991}
   - component: {fileID: 1681541993}
   m_Layer: 0
   m_Name: Abilities
@@ -1742,7 +1761,7 @@ MonoBehaviour:
   _magnetismActiveSound: {fileID: 1681541990}
   _magnetismErrorSound: {fileID: 1681541989}
   _magnetismSpindownTimeRequired: 0.25
-  _magnetismPitchStart: 0.1
+  _magnetismPitchStart: 0.5
 --- !u!114 &1681541993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1756,7 +1775,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dashDuration: 0.2
-  _dashDistance: 5
+  _dashDistance: 6
+  _dashErrorSound: {fileID: 1681541989}
 --- !u!1 &1692721322
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource _collisionSoundSource;
 
+    [Tooltip("Audio source for cart return sound effect")]
+    [SerializeField]
+    private AudioSource _cartReturnSoundSource;
+
     private float _initialPitch;
 
     void Awake()
@@ -26,6 +30,7 @@ public class SoundManager : MonoBehaviour
         GameData.OnGameStateChange += UpdateStateSounds;
         GameData.OnScrollSpeedChange += UpdateSpeedSounds;
         GameData.OnStackSizeChange += UpdateStackSounds;
+        GameData.OnReturnCountChange += PlayCartReturnSound;
     }
 
     void OnDisable()
@@ -33,6 +38,7 @@ public class SoundManager : MonoBehaviour
         GameData.OnGameStateChange -= UpdateStateSounds;
         GameData.OnScrollSpeedChange -= UpdateSpeedSounds;
         GameData.OnStackSizeChange -= UpdateStackSounds;
+        GameData.OnReturnCountChange -= PlayCartReturnSound;
     }
 
     void UpdateStateSounds(GameState newGameState)
@@ -68,5 +74,13 @@ public class SoundManager : MonoBehaviour
     {
         // Incrtacked rolling cart sound as stack size grows
         _stackedRollingSoundSource.volume = newStackSize * 0.04F;
+    }
+
+    void PlayCartReturnSound(uint newTotalCount)
+    {
+        // Play on increment
+        if (newTotalCount > GameData.ReturnCountTotal) {
+            _cartReturnSoundSource.Play();
+        }
     }
 }

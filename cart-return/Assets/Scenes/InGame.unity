@@ -1159,7 +1159,7 @@ AudioSource:
   m_GameObject: {fileID: 1080207613}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 4ab69b5fed70c2dc8b132147b49b9777, type: 2}
   m_audioClip: {fileID: 8300000, guid: 634a34f69fac709bf8450a2104eba4e6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -2647,6 +2647,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2334414215573088648, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: _fastHitSoundSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2334414215573088648, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
+      propertyPath: _slidingSoundSource
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6818558847886025223, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
       propertyPath: m_Name
       value: PlayerCart
@@ -2719,7 +2727,8 @@ PrefabInstance:
       propertyPath: m_AutoConfigureDistance
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 352276158, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 619e4da32c20c2d3f8f19fed661e307b, type: 3}
 --- !u!1001 &8569980348507269329
 PrefabInstance:

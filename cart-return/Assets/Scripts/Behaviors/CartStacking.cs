@@ -17,13 +17,18 @@ public class CartStacking : MonoBehaviour
     [Tooltip("CartStacking component for cart in front of this cart (if any)")]
     public CartStacking forwardCart;
 
-    [Tooltip("Audio source for cart sliding sound")]
-    [SerializeField]
-    private AudioSource _slidingSoundSource;
-
     [Tooltip("Scale factor for cart rotation")]
     [SerializeField]
     private float _rotationScale = 0.25F;
+
+    // Large angle threshold [deg]
+    private const float _badAngle = 35.0F;
+
+    // Large-angle collision time after which to disable colliders [sec]
+    private const float _badAngleColliderDisableTime = 0.20F;
+
+    // Any-angle collision time after which to disable colliders [sec]
+    private const float _colliderDisableTime = 0.05F;
 
     // Required components
     private SpringJoint2D _joint;
@@ -34,6 +39,9 @@ public class CartStacking : MonoBehaviour
     
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
+
+    // Boolean indicating whether or not a slide event is queued
+    private bool _queueSlideEvent = false;
 
     void Awake()
     {
@@ -93,23 +101,18 @@ public class CartStacking : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        // If too much time spent in a collision with a free cart, disable its colliders
-        // Note: This simple approach assumes at most one cart is colliding with this object
         if (collision.gameObject.CompareTag(Tags.FreeCart.ToString())) {
             _collisionTime += Time.fixedDeltaTime;
-            if (_collisionTime > 0.20F) {
+            // If too much time spent in a collision with a free cart, disable its colliders
+            // Note: This simple approach assumes at most one cart is colliding with this object
+            if (_collisionTime > _colliderDisableTime) {
                 DisableColliders(collision.gameObject);
             }
 
-            if (_collisionTime > 0.05F) {
-                // Play cart sliding sound
-                if (!_slidingSoundSource.isPlaying) {
-                    _slidingSoundSource.Play();
-                }
-
-                // Occasionally, a bad collision results in the collided cart being roated
-                // ~45 degrees, pulling the player cart(s) up/down out of control.
-                if (Mathf.Abs(collision.transform.eulerAngles.z) > 35.0F) {
+            // Occasionally, a bad collision results in the collided cart being heavily rotated
+            // and pulling the player up/down. Disable colliders sooner if this happens.
+            if (_collisionTime > _badAngleColliderDisableTime) {
+                if (Mathf.Abs(collision.transform.eulerAngles.z) > _badAngle) {
                     DisableColliders(collision.gameObject);
                 }
             }
@@ -119,8 +122,13 @@ public class CartStacking : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        // Reset collision timer on exit
         if (collision.gameObject.CompareTag(Tags.FreeCart.ToString())) {
+            var audioSource = collision.gameObject.GetComponent<AudioSource>();
+            if (!audioSource.isPlaying) {
+                audioSource.Play();
+            }
+
+            // Reset collision timer on exit
             _collisionTime = 0.0F;
         }
     }
@@ -136,3 +144,4 @@ public class CartStacking : MonoBehaviour
         }
     }
 }
+

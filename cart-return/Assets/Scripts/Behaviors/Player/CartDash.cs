@@ -17,9 +17,13 @@ public class CartDash : MonoBehaviour
     [SerializeField]
     private float _dashDistance = 6.0F;
 
+    [Tooltip("Audio source for dash sound effect")]
+    [SerializeField]
+    private AudioSource _dashSound;
+
     [Tooltip("Audio source for dash error sound effect")]
     [SerializeField]
-    private AudioSource _dashErrorSound;
+    private AudioSource _errorSound;
 
     private InputAction _nudgeAction;
     private InputAction _upDownAction;
@@ -107,9 +111,10 @@ public class CartDash : MonoBehaviour
                     }
 
                     GameData.Dashes--;
+                    _dashSound.Play();
                 }
             } else {
-                _dashErrorSound.Play();
+                _errorSound.Play();
             }
 
             // Init debouncing

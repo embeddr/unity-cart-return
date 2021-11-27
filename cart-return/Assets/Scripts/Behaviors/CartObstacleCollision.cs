@@ -21,8 +21,6 @@ public class CartObstacleCollision : MonoBehaviour
         if (GameData.State == GameState.InGame) {
             // Check for collision with obstacle
             if (collision.gameObject.CompareTag(Tags.Obstacle.ToString())) {
-                Debug.Log("Cart-obstacle collision!");
-
                 // Move state to game over
                 GameData.State = GameState.GameOver;
 

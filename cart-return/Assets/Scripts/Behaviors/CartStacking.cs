@@ -40,9 +40,6 @@ public class CartStacking : MonoBehaviour
     // Duration a cart has been continuously colliding with this object
     private float _collisionTime = 0.0F;
 
-    // Boolean indicating whether or not a slide event is queued
-    private bool _queueSlideEvent = false;
-
     void Awake()
     {
         _joint = GetComponent<SpringJoint2D>();

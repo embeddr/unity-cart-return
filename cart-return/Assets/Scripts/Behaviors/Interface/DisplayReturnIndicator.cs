@@ -71,10 +71,10 @@ public class DisplayReturnIndicator : MonoBehaviour
         return color;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_indicatorQueue.Count > 0) {
-            if ((_soundTime += Time.deltaTime) > _soundInterval) {
+            if ((_soundTime += Time.fixedDeltaTime) > _soundInterval) {
                 _soundTime = 0.0F;
 
                 var indicatorObj = Instantiate(_textFader,

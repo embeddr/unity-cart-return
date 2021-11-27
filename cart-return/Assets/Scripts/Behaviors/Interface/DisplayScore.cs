@@ -7,11 +7,21 @@ using UnityEngine.UI;
 public class DisplayScore : MonoBehaviour
 {
     private Text _text;
+    
+    private int _totalReturnCount;
 
     void Awake()
     {
         _text = GetComponent<Text>();
-        UpdateScore(GameData.ReturnCountTotal);
+    }
+
+    void Start()
+    {
+        _totalReturnCount = GameData.ReturnCountNormal +
+                            GameData.ReturnCountRed +
+                            GameData.ReturnCountBlue +
+                            GameData.ReturnCountGreen;
+        DisplayReturnCount();
     }
 
     void OnEnable()
@@ -24,8 +34,14 @@ public class DisplayScore : MonoBehaviour
         GameData.OnReturnCountChange -= UpdateScore;
     }
 
-    void UpdateScore(uint newTotalCount)
+    void UpdateScore(int newCount, CartType cartType)
     {
-        _text.text = "Returned: " + newTotalCount.ToString("0");
+        _totalReturnCount += GameData.getCartDelta(newCount, cartType);
+        DisplayReturnCount();
+    }
+
+    void DisplayReturnCount()
+    {
+        _text.text = "Returned: " + _totalReturnCount.ToString("0");
     }
 }

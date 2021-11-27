@@ -13,7 +13,7 @@ public class GameConfig : ScriptableObject
     public float scrollSpeed;
 
     [Tooltip("Initial dashes available to player")]
-    public uint dashes;
+    public int dashes;
 
     [Tooltip("Initial magnetism time available to player")]
     public float magnetismTime;

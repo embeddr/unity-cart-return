@@ -23,10 +23,11 @@ public static class GameData
     public delegate void ScrollSpeedChangeHandler(float newScrollSpeed);
     public static event ScrollSpeedChangeHandler OnScrollSpeedChange;
 
-    public delegate void StackSizeChangeHandler(uint newStackSize);
+    public delegate void StackSizeChangeHandler(int newStackSize);
     public static event StackSizeChangeHandler OnStackSizeChange;
 
-    public delegate void ReturnCountChangeHandler(uint newTotalCount);
+    public delegate void ReturnCountChangeHandler(int newReturnCount,
+                                                  CartType cartType);
     public static event ReturnCountChangeHandler OnReturnCountChange;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ public static class GameData
     private static float _scrollSpeed;
 
     // Number of dashes available to the player
-    public static uint Dashes { get; set; }
+    public static int Dashes { get; set; }
 
     // Magnetism time available in seconds
     public static float MagnetismTime { get; set; }
@@ -80,79 +81,54 @@ public static class GameData
     private static GameObject _backCart;
 
     // Cart stack size (not including the player)
-    public static uint StackSize {
+    public static int StackSize {
         get { return _stackSize; }
         set {
             OnStackSizeChange?.Invoke(value);
             _stackSize = value;
         }
     }
-    private static uint _stackSize;
-
-    // Total carts returned
-    public static uint ReturnCountTotal {
-        get; private set; // Updated by color-specific setters
-    }
+    private static int _stackSize;
 
     // Normal carts returned
-    public static uint ReturnCountNormal {
+    public static int ReturnCountNormal {
         get { return _returnCountNormal; }
         set {
-            var newTotal = value + 
-                           ReturnCountRed + 
-                           ReturnCountBlue + 
-                           ReturnCountGreen;
-            OnReturnCountChange?.Invoke(newTotal);
+            OnReturnCountChange?.Invoke(value, CartType.Normal);
             _returnCountNormal = value;
-            ReturnCountTotal = newTotal;
         }
     }
-    private static uint _returnCountNormal;
+    private static int _returnCountNormal;
 
     // Red carts returned
-    public static uint ReturnCountRed {
+    public static int ReturnCountRed {
         get { return _returnCountRed; }
         set {
-            var newTotal = ReturnCountNormal + 
-                           value + 
-                           ReturnCountBlue + 
-                           ReturnCountGreen;
-            OnReturnCountChange?.Invoke(newTotal);
+            OnReturnCountChange?.Invoke(value, CartType.Red);
             _returnCountRed = value;
-            ReturnCountTotal = newTotal;
         }
     }
-    private static uint _returnCountRed;
+    private static int _returnCountRed;
 
     // Blue carts returned
-    public static uint ReturnCountBlue {
+    public static int ReturnCountBlue {
         get { return _returnCountBlue; }
         set {
-            var newTotal = ReturnCountNormal + 
-                           ReturnCountRed +
-                           value + 
-                           ReturnCountGreen;
-            OnReturnCountChange?.Invoke(newTotal);
+            OnReturnCountChange?.Invoke(value, CartType.Blue);
             _returnCountBlue = value;
-            ReturnCountTotal = newTotal;
         }
     }
-    private static uint _returnCountBlue;
+    private static int _returnCountBlue;
 
     // Green carts returned
-    public static uint ReturnCountGreen {
+    public static int ReturnCountGreen {
         get { return _returnCountGreen; }
         set {
-            var newTotal = ReturnCountNormal + 
-                           ReturnCountRed +
-                           ReturnCountBlue +
-                           value;
-            OnReturnCountChange?.Invoke(newTotal);
+            OnReturnCountChange?.Invoke(value, CartType.Green);
             _returnCountGreen = value;
-            ReturnCountTotal = newTotal;
         }
     }
-    private static uint _returnCountGreen;
+    private static int _returnCountGreen;
 
     ///////////////////////////////////////////////////////////////////////////
     // Helper functions
@@ -162,7 +138,7 @@ public static class GameData
     public static void init(GameConfig config,
                             GameObject frontCart,
                             GameObject backCart,
-                            uint stackSize)
+                            int stackSize)
     {
         State = config.state;
         ScrollSpeed = config.scrollSpeed;
@@ -177,5 +153,27 @@ public static class GameData
         ReturnCountRed = 0;
         ReturnCountBlue = 0;
         ReturnCountGreen = 0;
+    }
+
+    // TODO: Just send the delta as the event arg, instead of the new count
+    public static int getCartDelta(int newCount, CartType cartType)
+    {
+        var prevCount = 0;
+        switch (cartType) {
+            case CartType.Normal:
+                prevCount = ReturnCountNormal;
+                break;
+            case CartType.Red:
+                prevCount = ReturnCountRed;
+                break;
+            case CartType.Blue:
+                prevCount = ReturnCountBlue;
+                break;
+            case CartType.Green:
+                prevCount = ReturnCountGreen;
+                break;
+        }
+
+        return (newCount - prevCount);
     }
 }

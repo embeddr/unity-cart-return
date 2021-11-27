@@ -19,6 +19,6 @@ public class InitializeGameData : MonoBehaviour
         GameData.init(_gameConfig,
                       playerCart,
                       playerCart,
-                      (uint)stackSize);
+                      stackSize);
     }
 }

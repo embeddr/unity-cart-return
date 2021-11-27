@@ -25,8 +25,6 @@ public class CartReturn : MonoBehaviour
     {
         if (other.CompareTag(Tags.ReturnZone.ToString())) {
             if (tag != Tags.Player.ToString()) {
-                Debug.Log("Returning " + _cartType.ToString() + " cart!");
-
                 // Handle type-specific behavior
                 switch (_cartType) {
                     case CartType.Normal:
@@ -49,7 +47,7 @@ public class CartReturn : MonoBehaviour
                         GameData.ReturnCountGreen++;
                         break;
                     default:
-                        Utils.ExitGame("Returned invalid cart type: " + ((int)_cartType).ToString());
+                        Utils.ExitGame("Returned invalid cart type: " + _cartType.ToString());
                         break;
                 }
 
@@ -67,7 +65,7 @@ public class CartReturn : MonoBehaviour
         }
     }
 
-    uint deleteForwardCarts(CartStacking cart)
+    int deleteForwardCarts(CartStacking cart)
     {
         Destroy(cart.gameObject);
 

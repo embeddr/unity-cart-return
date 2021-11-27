@@ -1495,7 +1495,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{POINTS}'
+  m_Text: '{SCORE}'
 --- !u!222 &1669159775
 CanvasRenderer:
   m_ObjectHideFlags: 0

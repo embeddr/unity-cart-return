@@ -9,13 +9,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CartReturn : MonoBehaviour
 {
-    public enum CartType {
-        Normal,
-        Red,
-        Blue,
-        Green,
-    }
-
     [Tooltip("The cart type/color, which determines its return bonus")]
     [SerializeField]
     private CartType _cartType = CartType.Normal;
@@ -38,18 +31,22 @@ public class CartReturn : MonoBehaviour
                 switch (_cartType) {
                     case CartType.Normal:
                         // No special behavior
+                        GameData.ReturnCountNormal++;
                         break;
                     case CartType.Red:
                         // Red carts provide magnetism time
                         GameData.MagnetismTime += 2.0F;
+                        GameData.ReturnCountRed++;
                         break;
                     case CartType.Blue:
                         // Blue carts reduce scroll speed
                         GameData.ScrollSpeed -= 1.0F;
+                        GameData.ReturnCountBlue++;
                         break;
                     case CartType.Green:
                         // Green carts provide nudges
                         GameData.Dashes++;
+                        GameData.ReturnCountGreen++;
                         break;
                     default:
                         Utils.ExitGame("Returned invalid cart type: " + ((int)_cartType).ToString());

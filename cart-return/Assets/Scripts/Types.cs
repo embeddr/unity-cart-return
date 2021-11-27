@@ -23,3 +23,11 @@ public enum GameState {
     Paused,
     GameOver,
 }
+
+// Cart Type
+public enum CartType {
+    Normal,
+    Red,
+    Blue,
+    Green,
+}

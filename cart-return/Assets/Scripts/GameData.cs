@@ -26,6 +26,9 @@ public static class GameData
     public delegate void StackSizeChangeHandler(uint newStackSize);
     public static event StackSizeChangeHandler OnStackSizeChange;
 
+    public delegate void ReturnCountChangeHandler(uint newTotalCount);
+    public static event ReturnCountChangeHandler OnReturnCountChange;
+
     ///////////////////////////////////////////////////////////////////////////
     // Game data properties
     ///////////////////////////////////////////////////////////////////////////
@@ -86,6 +89,71 @@ public static class GameData
     }
     private static uint _stackSize;
 
+    // Total carts returned
+    public static uint ReturnCountTotal {
+        get; private set; // Updated by color-specific setters
+    }
+
+    // Normal carts returned
+    public static uint ReturnCountNormal {
+        get { return _returnCountNormal; }
+        set {
+            var newTotal = value + 
+                           ReturnCountRed + 
+                           ReturnCountBlue + 
+                           ReturnCountGreen;
+            OnReturnCountChange?.Invoke(newTotal);
+            _returnCountNormal = value;
+            ReturnCountTotal = newTotal;
+        }
+    }
+    private static uint _returnCountNormal;
+
+    // Red carts returned
+    public static uint ReturnCountRed {
+        get { return _returnCountRed; }
+        set {
+            var newTotal = ReturnCountNormal + 
+                           value + 
+                           ReturnCountBlue + 
+                           ReturnCountGreen;
+            OnReturnCountChange?.Invoke(newTotal);
+            _returnCountRed = value;
+            ReturnCountTotal = newTotal;
+        }
+    }
+    private static uint _returnCountRed;
+
+    // Blue carts returned
+    public static uint ReturnCountBlue {
+        get { return _returnCountBlue; }
+        set {
+            var newTotal = ReturnCountNormal + 
+                           ReturnCountRed +
+                           value + 
+                           ReturnCountGreen;
+            OnReturnCountChange?.Invoke(newTotal);
+            _returnCountBlue = value;
+            ReturnCountTotal = newTotal;
+        }
+    }
+    private static uint _returnCountBlue;
+
+    // Green carts returned
+    public static uint ReturnCountGreen {
+        get { return _returnCountGreen; }
+        set {
+            var newTotal = ReturnCountNormal + 
+                           ReturnCountRed +
+                           ReturnCountBlue +
+                           value;
+            OnReturnCountChange?.Invoke(newTotal);
+            _returnCountGreen = value;
+            ReturnCountTotal = newTotal;
+        }
+    }
+    private static uint _returnCountGreen;
+
     ///////////////////////////////////////////////////////////////////////////
     // Helper functions
     ///////////////////////////////////////////////////////////////////////////
@@ -104,5 +172,10 @@ public static class GameData
         FrontCart = frontCart;
         BackCart = backCart;
         StackSize = stackSize;
+
+        ReturnCountNormal = 0;
+        ReturnCountRed = 0;
+        ReturnCountBlue = 0;
+        ReturnCountGreen = 0;
     }
 }

@@ -1,4 +1,4 @@
-// Score keeping and display behavior
+// Score display behavior
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,45 +6,26 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class DisplayScore : MonoBehaviour
 {
-    [Tooltip("Score is running")]
-    private bool scoreEnabled = true;
-
-    [Tooltip("Multiplier bonus per cart")]
-    private float _bonusPerCart = 1.3F;
-
-    [SerializeField]
-    [Tooltip("Baseline points per second")]
-    private float _pointsPerSecond = 10.0F;
-
     private Text _text;
-    private double _points = 0.0F;
 
     void Awake()
     {
         _text = GetComponent<Text>();
+        UpdateScore(GameData.ReturnCountTotal);
     }
 
     void OnEnable()
     {
-       CartObstacleCollision.OnCollision += PauseScore; 
+        GameData.OnReturnCountChange += UpdateScore;
     }
 
     void OnDisable()
     {
-       CartObstacleCollision.OnCollision -= PauseScore; 
+        GameData.OnReturnCountChange -= UpdateScore;
     }
 
-    void PauseScore()
+    void UpdateScore(uint newTotalCount)
     {
-        scoreEnabled = false;
-    }
-
-    void Update()
-    {
-        if (scoreEnabled) {
-            float multiplier = Mathf.Pow(_bonusPerCart, GameData.StackSize);
-            _points += (Time.deltaTime * _pointsPerSecond * multiplier);
-            _text.text = _points.ToString("0");
-        }
+        _text.text = "Returned: " + newTotalCount.ToString("0");
     }
 }

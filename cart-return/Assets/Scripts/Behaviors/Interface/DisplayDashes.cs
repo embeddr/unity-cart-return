@@ -15,6 +15,10 @@ public class DisplayDashes : MonoBehaviour
 
     void Update()
     {
-        _text.text = string.Format("Dashes: {0}", GameData.Dashes);
+        if (GameData.Dashes <= 9) {
+            _text.text = string.Format("{0}", GameData.Dashes);
+        } else {
+            _text.text = ">9";
+        }
     }
 }

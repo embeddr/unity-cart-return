@@ -44,10 +44,13 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Tile
+    uniqueID: 245204959
+    locked: 0
   - name: StackedCart
     uniqueID: 3106122115
     locked: 0
-  - name: FreeCart
+  - name: FreeCartOrObstacle
     uniqueID: 3395160665
     locked: 0
   - name: Corral

@@ -23,6 +23,9 @@ public class SpawnTile : MonoBehaviour
     [Tooltip("Spawning enabled")]
     private bool _spawnEnabled = true;
 
+    [Tooltip("Spawn at start")]
+    private bool _spawnAtStart = true;
+
     // X-axis offset for spawn point
     private const float _spawnPointXOffset = 30.0F;
 
@@ -50,6 +53,11 @@ public class SpawnTile : MonoBehaviour
     {
         // Ensure that objects list is not empty
         Utils.Assert(_tileObjects.Count != 0, "No objects provided to SpawnTile behavior!");
+
+        if (_spawnAtStart)
+        {
+            SpawnRandomTile(_spawnPointXOffset);
+        }
     }
 
     void Update()
@@ -60,27 +68,30 @@ public class SpawnTile : MonoBehaviour
             _distanceSinceSpawn += (Time.deltaTime * GameData.ScrollSpeed);
             if (_distanceSinceSpawn > _spawnInterval)
             {
-                // Randomly select object from list
-                var index = Random.Range(0, _tileObjects.Count);
-                var spawnObject = _tileObjects[index];
-
-                // Calculate exact spawn offset
+                // Spawn at exact offset, factoring in overshoot
                 var overshoot = _distanceSinceSpawn - _spawnInterval;
-                var exactSpawnPointX = _spawnPointXOffset - overshoot;
-
-                Spawn(spawnObject, new Vector2(exactSpawnPointX, 0.0F));
+                SpawnRandomTile(_spawnPointXOffset - overshoot);
                 _distanceSinceSpawn = overshoot;
             }
         }
     }
 
-    void Spawn(GameObject spawnObject, Vector2 spawnPoint)
+    void SpawnRandomTile(float spawnPointX)
     {
-        var tile = Instantiate(spawnObject, spawnPoint, spawnObject.transform.rotation);
+        var index = Random.Range(0, _tileObjects.Count);
+        var spawnObject = _tileObjects[index];
+        var tile = Instantiate(spawnObject,
+                               new Vector2(spawnPointX, 0.0F),
+                               spawnObject.transform.rotation);
 
+        SpawnObstaclesOnTile(tile);
+    }
+
+    void SpawnObstaclesOnTile(GameObject tileObject)
+    {
         // Get all spawn-point components from children, append to list
         var obstacleSpawnPoints = new List<ParkedCarSpawnPoint>();
-        foreach (Transform child in tile.transform) {
+        foreach (Transform child in tileObject.transform) {
             // Note: This is only traversing the first level of children
             var tmp = child.GetComponent<ParkedCarSpawnPoint>();
             if (tmp != null)
@@ -90,7 +101,7 @@ public class SpawnTile : MonoBehaviour
         }
 
         // Spawn random number of obstacles
-        var numObstacles = Random.Range(3, 6); // TODO: expose as parameters?
+        var numObstacles = Random.Range(2, 5); // FIXME: magic numbers
         Utils.Assert(numObstacles <= obstacleSpawnPoints.Count,
             "Not enough obstacle spawn points!");
 
@@ -121,9 +132,15 @@ public class SpawnTile : MonoBehaviour
         // Randomly select obstacle
         var index = Random.Range(0, _obstacleObjects.Count);
         var obstacle = _obstacleObjects[index];
-                    
-        // TODO: random 180-degree rotations?
-        Instantiate(obstacle, spawnPoint, obstacle.transform.rotation);
+
+        // Randomly select rotation (0 or 180 degrees)
+        var rotation = obstacle.transform.rotation;
+        int flip = Random.Range(0, 2);
+        if (flip == 1)
+        {
+            rotation *= Quaternion.Euler(new Vector3(0, 0, 180));
+        }
+        Instantiate(obstacle, spawnPoint, rotation);
     }
 
 }
